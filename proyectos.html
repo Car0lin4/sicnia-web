@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Proyectos , Sicnia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #2563eb;
+    --blue-50: color-mix(in oklab, var(--blue) 6%, white);
+    --blue-100: color-mix(in oklab, var(--blue) 14%, white);
+    --blue-200: color-mix(in oklab, var(--blue) 28%, white);
+    --blue-600: var(--blue);
+    --blue-700: color-mix(in oklab, var(--blue) 82%, black);
+    --ink-950: #0a0f1a;
+    --ink-900: #0f172a;
+    --ink-700: #334155;
+    --ink-500: #64748b;
+    --ink-400: #94a3b8;
+    --ink-300: #cbd5e1;
+    --ink-200: #e2e8f0;
+    --ink-100: #f1f5f9;
+    --ink-50:  #f8fafc;
+    --paper: #ffffff;
+    --pattern-opacity: 0.55;
+    --radius: 10px;
+    --fs-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --fs-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --fs-serif: "Instrument Serif", "Times New Roman", serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--fs-sans);
+    font-feature-settings: "ss01", "cv11";
+    color: var(--ink-900);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* ---------- Page-wide background pattern ---------- */
+  .page {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--blue) 10%, white) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--blue) 10%, white) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: -1px -1px;
+    opacity: var(--pattern-opacity);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--blue) 22%, white) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--blue) 22%, white) 1px, transparent 1px);
+    background-size: 280px 280px;
+    background-position: -1px -1px;
+    opacity: calc(var(--pattern-opacity) * 0.9);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap {
+    position: relative;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    z-index: 1;
+  }
+
+  /* ---------- Navbar ---------- */
+  .nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+  .brand { display: flex; align-items: center; }
+  .brand-logo { height: 36px; width: auto; display: block; }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--ink-700);
+    transition: color .15s ease;
+  }
+  .nav-links a:hover { color: var(--ink-900); }
+  .nav-links a.active { color: var(--blue); font-weight: 500; }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: var(--ink-900);
+    padding: 8px 13px;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    background: white;
+    transition: border-color .15s ease;
+  }
+  .nav-cta:hover { border-color: var(--ink-300); }
+
+  /* ---------- Page header ---------- */
+  .page-header {
+    padding-top: 64px;
+    padding-bottom: 56px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 11px 5px 7px;
+    border: 1px solid var(--ink-200);
+    border-radius: 999px;
+    font-size: 12.5px;
+    color: var(--ink-700);
+    background: color-mix(in oklab, white 80%, var(--blue-50));
+    backdrop-filter: blur(6px);
+    margin-bottom: 20px;
+  }
+  .eyebrow .pip {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--blue) 14%, white);
+    color: var(--blue);
+    display: grid; place-items: center;
+    font-family: var(--fs-mono);
+    font-size: 10.5px;
+  }
+  .page-header h1 {
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 0 0 14px;
+    color: var(--ink-950);
+  }
+  .page-header h1 em {
+    font-family: var(--fs-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--blue);
+    letter-spacing: -0.02em;
+  }
+  .page-header p {
+    font-size: 17px;
+    color: var(--ink-500);
+    margin: 0;
+    max-width: 52ch;
+    line-height: 1.6;
+  }
+
+  /* ---------- Filters ---------- */
+  .filters-bar {
+    position: sticky;
+    top: 0;
+    z-index: 9;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--ink-100);
+    padding: 14px 0;
+    margin-bottom: 48px;
+  }
+  .filters-inner {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .filter-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-500);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .filter-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-500);
+    background: white;
+    border: 1px solid var(--ink-200);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all .15s ease;
+    line-height: 1;
+  }
+  .chip:hover {
+    border-color: var(--ink-300);
+    color: var(--ink-700);
+  }
+  .chip.active {
+    background: white;
+    color: var(--blue);
+    border-color: var(--blue);
+    font-weight: 500;
+  }
+  .chip .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.7;
+  }
+
+  .results-count {
+    margin-left: auto;
+    font-size: 12.5px;
+    color: var(--ink-500);
+    white-space: nowrap;
+    font-family: var(--fs-mono);
+  }
+  .results-count span {
+    color: var(--ink-900);
+    font-weight: 500;
+  }
+
+  /* ---------- Divider between filter groups ---------- */
+  .filter-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--ink-200);
+    flex-shrink: 0;
+  }
+
+  /* ---------- Projects grid ---------- */
+  .projects-section {
+    padding-bottom: 96px;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  /* ---------- Project card ---------- */
+  .project-card {
+    background: white;
+    border: 1px solid var(--ink-100);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-card:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in oklab, var(--blue) 18%, white);
+    box-shadow: 0 12px 32px -8px rgba(15,23,42,.1);
+  }
+  .project-card.hidden {
+    display: none;
+  }
+
+  .card-img {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--ink-100);
+    position: relative;
+  }
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+  }
+  .project-card:hover .card-img img {
+    transform: scale(1.03);
+  }
+
+  .card-badges {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: flex;
+    gap: 6px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: 999px;
+    letter-spacing: 0.01em;
+    backdrop-filter: blur(8px);
+  }
+  .badge-estado-venta,
+  .badge-estado-construccion,
+  .badge-estado-operacion,
+  .badge-estado-vendido,
+  .badge-estado-desarrollo,
+  .badge-tipo {
+    background: rgba(255,255,255,0.82);
+    color: var(--ink-700);
+  }
+
+  .card-body {
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .card-title {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    color: var(--ink-950);
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    color: var(--ink-500);
+  }
+  .meta-item svg { opacity: 0.7; flex-shrink: 0; }
+
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--ink-500);
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--ink-100);
+    margin-top: 4px;
+  }
+  .card-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .card-stat-val {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-950);
+    letter-spacing: -0.02em;
+    font-family: var(--fs-mono);
+  }
+  .card-stat-lbl {
+    font-size: 11px;
+    color: var(--ink-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--blue);
+    transition: gap .15s ease;
+  }
+  .card-link:hover { gap: 8px; }
+
+  /* ---------- Empty state ---------- */
+  .empty-state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 32px;
+    text-align: center;
+    gap: 12px;
+    grid-column: 1 / -1;
+  }
+  .empty-state.visible { display: flex; }
+  .empty-state h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink-700);
+    margin: 0;
+  }
+  .empty-state p {
+    font-size: 14px;
+    color: var(--ink-400);
+    margin: 0;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    position: relative;
+    border-top: 1px solid var(--ink-100);
+    padding-top: 56px;
+    padding-bottom: 40px;
+    color: var(--ink-500);
+    font-size: 13px;
+    background: var(--paper);
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-top: 48px;
+    margin-bottom: 48px;
+  }
+  .foot-brand .brand-logo { height: 28px; margin-bottom: 14px; }
+  .foot-brand p { font-size: 13px; color: var(--ink-500); line-height: 1.6; max-width: 220px; }
+  .foot-col-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-900);
+    margin-bottom: 14px;
+  }
+  .foot-col a {
+    display: block;
+    color: var(--ink-500);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color .15s;
+  }
+  .foot-col a:hover { color: var(--ink-900); }
+  .foot-bottom {
+    border-top: 1px solid var(--ink-100);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .foot-legal { display: flex; gap: 20px; }
+  .foot-legal a { color: var(--ink-400); text-decoration: none; transition: color .15s; }
+  .foot-legal a:hover { color: var(--ink-700); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1024px) {
+    .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .wrap { padding: 0 20px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .filters-inner { gap: 16px; }
+    .filter-group { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .filter-divider { display: none; }
+    .results-count { margin-left: 0; width: 100%; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .page-header { padding-top: 40px; padding-bottom: 36px; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: 1 / -1; }
+    .foot-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+  @media (max-width: 480px) {
+    .foot-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Scroll reveal ── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 480ms cubic-bezier(0.165, 0.84, 0.44, 1),
+      transform 480ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-delay: calc(var(--rd, 0) * 1ms);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav class="nav wrap">
+    <div class="brand">
+      <a href="index.html"><img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo"></a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html#inicio">Inicio</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="proyectos.html" class="active">Proyectos</a>
+      <a href="certificaciones.html">Certificaciones</a>
+      <a class="nav-cta" href="index.html#contacto">Contáctanos
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6m0 0L5.5 2.5M8 5L5.5 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header wrap" data-reveal>
+<h1>Cada proyecto, una <em>historia</em> que construimos.</h1>
+    <p>Desde vivienda de interés social hasta desarrollos residenciales de alto estándar e institucionales , con tecnología e inteligencia artificial en cada etapa.</p>
+  </div>
+
+  <!-- FILTERS BAR -->
+  <div class="filters-bar">
+    <div class="wrap filters-inner">
+
+      <div class="filter-group">
+        <span class="filter-label">Estado</span>
+        <div class="filter-chips" id="chips-estado">
+          <button class="chip active" data-filter="estado" data-value="all">Todos</button>
+          <button class="chip" data-filter="estado" data-value="venta">En venta</button>
+          <button class="chip" data-filter="estado" data-value="construccion">En construcción</button>
+          <button class="chip" data-filter="estado" data-value="operacion">En operación</button>
+          <button class="chip" data-filter="estado" data-value="vendido">Vendido</button>
+          <button class="chip" data-filter="estado" data-value="desarrollo">En desarrollo</button>
+        </div>
+      </div>
+
+      <div class="filter-divider"></div>
+
+      <div class="filter-group">
+        <span class="filter-label">Tipo</span>
+        <div class="filter-chips" id="chips-tipo">
+          <button class="chip active" data-filter="tipo" data-value="all">Todos</button>
+          <button class="chip" data-filter="tipo" data-value="residencial">Residencial</button>
+          <button class="chip" data-filter="tipo" data-value="institucional">Institucional</button>
+          <button class="chip" data-filter="tipo" data-value="turistico">Turístico</button>
+          <button class="chip" data-filter="tipo" data-value="vip">VIP / Social</button>
+        </div>
+      </div>
+
+      <span class="results-count"><span id="count">9</span> proyectos</span>
+
+    </div>
+  </div>
+
+  <!-- PROJECTS GRID -->
+  <section class="projects-section wrap">
+    <div class="projects-grid" id="projects-grid">
+
+      <!-- Bahía 57 -->
+      <article class="project-card" data-reveal
+        data-estado="vendido"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Bahía 57.jpeg" alt="Bahía 57" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-vendido">Vendido</span>
+            <span class="badge badge-tipo">Residencial</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Bahía 57</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4 3.5V2.5a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
+              Estrato 5
+            </span>
+          </div>
+          <p class="card-desc">Conjunto residencial exclusivo en una de las zonas más valoradas de Bogotá. Arquitectura contemporánea con acabados de alto estándar y entornos diseñados para el bienestar.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">12</span>
+              <span class="card-stat-lbl">Unidades</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Prado 134 -->
+      <article class="project-card" data-reveal style="--rd:80"
+        data-estado="vendido"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Prado 134.jpeg" alt="Prado 134" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-vendido">Vendido</span>
+            <span class="badge badge-tipo">Residencial</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Prado 134</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4 3.5V2.5a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
+              Estrato 3
+            </span>
+          </div>
+          <p class="card-desc">Proyecto residencial de 28 unidades pensado para familias que buscan calidad de vida accesible. Espacios funcionales, zonas comunes modernas y ubicación estratégica.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">28</span>
+              <span class="card-stat-lbl">Unidades</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Flat 119 -->
+      <article class="project-card" data-reveal style="--rd:160"
+        data-estado="venta"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Flat 119.jpeg" alt="Flat 119" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-venta">En venta</span>
+            <span class="badge badge-tipo">Residencial</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Flat 119</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4 3.5V2.5a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
+              Estrato 6
+            </span>
+          </div>
+          <p class="card-desc">Vivienda unipersonal de alto estándar para profesionales modernos. 37 apartamentos con diseño inteligente del espacio, materiales premium y tecnología integrada.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">37</span>
+              <span class="card-stat-lbl">Unidades</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- FUCS -->
+      <article class="project-card" data-reveal
+        data-estado="construccion"
+        data-tipo="institucional"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/FUCS.jpeg" alt="FUCS" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-venta">En venta</span>
+            <span class="badge badge-estado-construccion">En construcción</span>
+            <span class="badge badge-tipo">Institucional</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">FUCS</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4 3.5V2.5a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
+              Estrato 4
+            </span>
+          </div>
+          <p class="card-desc">Proyecto institucional de alto impacto desarrollado en alianza con la Fundación Universitaria de Ciencias de la Salud. Un hito en la construcción de infraestructura educativa en Bogotá.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Inst.</span>
+              <span class="card-stat-lbl">Tipo</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- San Nicolás Plaza -->
+      <article class="project-card" data-reveal style="--rd:80"
+        data-estado="vendido"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/San Nicolas Plaza.jpeg" alt="San Nicolás Plaza" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-vendido">Vendido</span>
+            <span class="badge badge-tipo">Residencial</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">San Nicolás Plaza</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4 3.5V2.5a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
+              Estrato 5
+            </span>
+          </div>
+          <p class="card-desc">Desarrollo residencial de 15 unidades en una ubicación privilegiada de Bogotá. Diseño de vanguardia, materiales seleccionados y zonas comunes que elevan la experiencia de vivir.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">15</span>
+              <span class="card-stat-lbl">Unidades</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Arena Suites -->
+      <article class="project-card" data-reveal style="--rd:160"
+        data-estado="operacion"
+        data-tipo="turistico"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Arena Suites.jpeg" alt="Arena Suites" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-operacion">En operación</span>
+            <span class="badge badge-tipo">Turístico</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Arena Suites</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 9.5l2-7 2 4 1.5-2.5L9.5 9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              26 m² / estudio
+            </span>
+          </div>
+          <p class="card-desc">Vivienda turística en plena operación. 28 estudios compactos de 26 m² diseñados para estadías cortas y largas, con gestión inteligente del espacio y alta rentabilidad.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">28</span>
+              <span class="card-stat-lbl">Estudios</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Calle 92 -->
+      <article class="project-card" data-reveal
+        data-estado="vendido"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Calle 92.jpeg" alt="Calle 92" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-vendido">Vendido</span>
+            <span class="badge badge-tipo">Residencial</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Calle 92</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4 3.5V2.5a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
+              Estrato 6
+            </span>
+          </div>
+          <p class="card-desc">Proyecto residencial de lujo completamente vendido. 4 unidades exclusivas en el corazón del norte de Bogotá, con acabados únicos y una propuesta arquitectónica memorable.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">4</span>
+              <span class="card-stat-lbl">Unidades</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Ver detalles
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ECO Ciudadela Betania -->
+      <article class="project-card" data-reveal style="--rd:80"
+        data-estado="desarrollo"
+        data-tipo="vip"
+        data-ciudad="pensilvania">
+        <div class="card-img">
+          <img src="Images/ECO Ciudadela Betania.png" alt="ECO Ciudadela Betania" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-desarrollo">En estructuración</span>
+            <span class="badge badge-tipo">VIP / Social</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">ECO Ciudadela Betania</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Pensilvania
+            </span>
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10c1-3 3-4 4-4s3 1 4 4M6 2a2 2 0 100 4 2 2 0 000-4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              Vivienda VIP
+            </span>
+          </div>
+          <p class="card-desc">94 unidades de vivienda de interés prioritario en Pensilvania, Caldas. Un proyecto con impacto social real, sostenibilidad ambiental e integración comunitaria como ejes del diseño.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">94</span>
+              <span class="card-stat-lbl">Unidades</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Proyecto Bo67 -->
+      <article class="project-card" data-reveal style="--rd:160"
+        data-estado="venta"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Proyecto Bo67.jpeg" alt="Proyecto Bo67" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-tipo">Residencial</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Proyecto Bo67</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+          </div>
+          <p class="card-desc">Nuevo desarrollo residencial en el corazón de Bogotá. Diseñado con criterios de eficiencia energética e integración de soluciones de inteligencia artificial en la gestión del edificio.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Nuevo</span>
+              <span class="card-stat-lbl">Proyecto</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <circle cx="20" cy="20" r="18" stroke="#cbd5e1" stroke-width="1.5"/>
+          <path d="M13 20h14M20 13v14" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <h3>Sin resultados para este filtro</h3>
+        <p>Prueba con otra combinación de filtros</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo">
+        <p>Inmobiliaria · Ingeniería · Inteligencia Artificial.<br>Construimos proyectos que duran décadas.</p>
+      </div>
+      <div class="foot-col">
+        <div class="foot-col-title">Navegación</div>
+        <a href="index.html#inicio">Inicio</a>
+        <a href="index.html#introduccion">Qué es Sicnia</a>
+        <a href="index.html#servicios">Servicios</a>
+        <a href="proyectos.html">Proyectos</a>
+        <a href="index.html#tipos">Tipos de construcción</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-col-title">Empresa</div>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="index.html#aliados">Aliados</a>
+        <a href="certificaciones.html">Certificaciones</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-col-title">Contacto</div>
+        <a href="index.html#contacto">Enviar mensaje</a>
+        <a href="tel:+5718050232">+57 (1) 805 02 32</a>
+        <a href="https://maps.google.com/?q=Calle+63+%2330-10+Bogotá" target="_blank" rel="noopener">Calle 63 #30-10, Bogotá, Colombia</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 Sicnia. Todos los derechos reservados.</div>
+      <div class="foot-legal">
+        <a href="#">Política de privacidad</a>
+        <a href="#">Términos de uso</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const activeFilters = { estado: 'all', tipo: 'all' };
+
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const filter = chip.dataset.filter;
+      const value = chip.dataset.value;
+
+      // update active chip in group
+      document.querySelectorAll(`.chip[data-filter="${filter}"]`).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+
+      activeFilters[filter] = value;
+      applyFilters();
+    });
+  });
+
+  function applyFilters() {
+    const cards = document.querySelectorAll('.project-card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const matchEstado = activeFilters.estado === 'all' || card.dataset.estado === activeFilters.estado;
+      const matchTipo   = activeFilters.tipo   === 'all' || card.dataset.tipo   === activeFilters.tipo;
+
+      if (matchEstado && matchTipo) {
+        card.classList.remove('hidden');
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    document.getElementById('count').textContent = visible;
+
+    const empty = document.getElementById('empty-state');
+    empty.classList.toggle('visible', visible === 0);
+  }
+</script>
+
+<script>
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+    document.querySelectorAll('[data-reveal]').forEach(function (el) {
+      observer.observe(el);
+    });
+  })();
+</script>
+
+</body>
+</html>

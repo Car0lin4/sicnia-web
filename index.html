@@ -1,0 +1,1825 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sicnia , IA para ingeniería de construcción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #2563eb;
+    --blue-50: color-mix(in oklab, var(--blue) 6%, white);
+    --blue-100: color-mix(in oklab, var(--blue) 14%, white);
+    --blue-200: color-mix(in oklab, var(--blue) 28%, white);
+    --blue-600: var(--blue);
+    --blue-700: color-mix(in oklab, var(--blue) 82%, black);
+    --ink-950: #0a0f1a;
+    --ink-900: #0f172a;
+    --ink-700: #334155;
+    --ink-500: #64748b;
+    --ink-400: #94a3b8;
+    --ink-300: #cbd5e1;
+    --ink-200: #e2e8f0;
+    --ink-100: #f1f5f9;
+    --ink-50:  #f8fafc;
+    --paper: #ffffff;
+    --pattern-opacity: 0.55;
+    --radius: 10px;
+    --fs-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --fs-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --fs-serif: "Instrument Serif", "Times New Roman", serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--fs-sans);
+    font-feature-settings: "ss01", "cv11";
+    color: var(--ink-900);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+
+  /* ---------- Page-wide background pattern ---------- */
+  .page {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  .page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--blue) 10%, white) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--blue) 10%, white) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: -1px -1px;
+    opacity: var(--pattern-opacity);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--blue) 22%, white) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--blue) 22%, white) 1px, transparent 1px);
+    background-size: 280px 280px;
+    background-position: -1px -1px;
+    opacity: calc(var(--pattern-opacity) * 0.9);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ---------- Layout containers ---------- */
+  .wrap {
+    position: relative;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    z-index: 1;
+  }
+
+  /* ---------- Navbar ---------- */
+  .nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--ink-100);
+  }
+  .nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+  }
+  .brand-logo {
+    height: 36px;
+    width: auto;
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--ink-700);
+    transition: color .15s ease;
+  }
+  .nav-links a:hover { color: var(--ink-900); }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: var(--ink-900);
+    padding: 8px 13px;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    background: white;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .nav-cta:hover { border-color: var(--ink-300); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items: center;
+    gap: 64px;
+    padding-top: 60px;
+    padding-bottom: 110px;
+    min-height: 640px;
+  }
+  .hero > * { min-width: 0; }
+  .eyebrow {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 11px 5px 7px;
+    border: 1px solid var(--ink-200);
+    border-radius: 16px;
+    font-size: 12.5px;
+    color: var(--ink-700);
+    background: color-mix(in oklab, white 80%, var(--blue-50));
+    backdrop-filter: blur(6px);
+    max-width: 100%;
+  }
+  .eyebrow span:last-child { line-height: 1.4; min-width: 0; word-break: break-word; }
+  .eyebrow .pip {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--blue) 14%, white);
+    color: var(--blue);
+    display: grid; place-items: center;
+    font-family: var(--fs-mono);
+    font-size: 10.5px;
+  }
+  .eyebrow b { color: var(--ink-900); font-weight: 500; }
+
+  h1.headline {
+    font-family: var(--fs-sans);
+    font-size: clamp(40px, 5.2vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    font-weight: 500;
+    margin: 22px 0 20px;
+    color: var(--ink-950);
+    max-width: 14ch;
+    text-wrap: balance;
+  }
+  h1.headline em {
+    font-family: var(--fs-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--blue);
+    letter-spacing: -0.02em;
+  }
+  .subhead {
+    font-size: 17.5px;
+    line-height: 1.55;
+    color: var(--ink-500);
+    max-width: 46ch;
+    margin: 0 0 32px;
+    text-wrap: pretty;
+  }
+  .cta-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    font-size: 14.5px;
+    font-weight: 500;
+    border-radius: 9px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .2s ease, background .15s ease, border-color .15s ease;
+    letter-spacing: -0.005em;
+  }
+  .btn-primary {
+    background: var(--ink-950);
+    color: white;
+    border-color: var(--ink-950);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 6px 18px -8px rgba(15,23,42,.6);
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 10px 22px -8px rgba(15,23,42,.55); }
+  .btn-primary .arrow { transition: transform .2s ease; }
+  .btn-primary:hover .arrow { transform: translateX(2px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-900);
+    border-color: var(--ink-200);
+  }
+  .btn-ghost:hover { background: white; border-color: var(--ink-300); }
+
+  .kbd-hint {
+    font-family: var(--fs-mono);
+    font-size: 12px;
+    color: var(--ink-400);
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    margin-left: 4px;
+  }
+  .kbd-hint kbd {
+    font-family: inherit;
+    padding: 2px 6px;
+    border: 1px solid var(--ink-200);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    background: white;
+    color: var(--ink-700);
+    font-size: 11px;
+  }
+
+  /* ---------- Hero stage (right column) ---------- */
+  .stage {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    max-width: 560px;
+    margin-left: auto;
+    display: grid;
+    place-items: center;
+  }
+  .stage-frame {
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    background:
+      radial-gradient(ellipse 80% 80% at 50% 50%, color-mix(in oklab, var(--blue) 4%, white) 0%, transparent 70%);
+  }
+  .stage-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--blue) 20%, white), transparent 40%);
+    -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+            mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none;
+  }
+  .stage-label {
+    position: absolute;
+    top: 16px; left: 18px;
+    font-family: var(--fs-mono);
+    font-size: 11px;
+    color: var(--ink-400);
+    letter-spacing: 0.04em;
+    display: flex; align-items: center; gap: 8px;
+    z-index: 2;
+  }
+  .stage-label .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--blue) 18%, white);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .stage-meta {
+    position: absolute;
+    bottom: 16px; right: 18px;
+    font-family: var(--fs-mono);
+    font-size: 10.5px;
+    color: var(--ink-400);
+    letter-spacing: 0.04em;
+    z-index: 2;
+  }
+
+  .stage svg.hero-svg {
+    position: relative;
+    width: 88%;
+    height: 88%;
+    z-index: 1;
+  }
+
+  /* Hero animation keyframes */
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes fadeIn { to { opacity: 1; } }
+  @keyframes fillIn { to { fill-opacity: 1; } }
+
+  /* ---------- Logo marquee ---------- */
+  .trust {
+    position: relative;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    border-top: 1px solid var(--ink-100);
+  }
+  .trust-label {
+    font-family: var(--fs-mono);
+    font-size: 11.5px;
+    color: var(--ink-400);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .trust-row {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    align-items: center;
+    gap: 0;
+  }
+  .trust-row .logo {
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px 16px;
+    border-left: 1px solid var(--ink-100);
+    opacity: 0.55;
+    transition: opacity .2s ease;
+  }
+  .trust-row .logo:first-child { border-left: none; }
+  .trust-row .logo:hover { opacity: 0.9; }
+  .trust-row .logo img {
+    max-height: 36px;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    transition: filter .2s ease;
+  }
+  .trust-row .logo:hover img { filter: grayscale(0%); }
+  .trust-row .logo img[alt="BBVA"] { max-height: 22px; }
+
+  /* ---------- Sections ---------- */
+  .section {
+    position: relative;
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+  .section-head {
+    max-width: 640px;
+    margin-bottom: 56px;
+  }
+  .section-kicker {
+    font-family: var(--fs-mono);
+    font-size: 11.5px;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(30px, 3.6vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.028em;
+    font-weight: 500;
+    margin: 0 0 16px;
+    color: var(--ink-950);
+    text-wrap: balance;
+  }
+  .section-sub {
+    color: var(--ink-500);
+    font-size: 16.5px;
+    max-width: 54ch;
+    text-wrap: pretty;
+  }
+
+  /* ---------- Big stat strip ---------- */
+  .stat-strip {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--ink-100);
+    border: 1px solid var(--ink-100);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .stat {
+    background: white;
+    padding: 28px 24px;
+  }
+  .stat-num {
+    font-family: var(--fs-serif);
+    font-style: italic;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--blue);
+    letter-spacing: -0.01em;
+  }
+  .stat-label {
+    font-size: 13.5px;
+    color: var(--ink-500);
+    margin-top: 8px;
+  }
+
+  /* ---------- Pilares (Introducción) ---------- */
+  .pilares {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 8px;
+  }
+  .pilar {
+    position: relative;
+    border: 1px solid var(--ink-100);
+    border-radius: 14px;
+    padding: 26px 24px 24px;
+    background: white;
+    overflow: hidden;
+    transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .pilar:hover { border-color: color-mix(in oklab, var(--blue) 20%, white); transform: translateY(-2px); box-shadow: 0 18px 36px -28px rgba(15,23,42,.18); }
+  .pilar-vis {
+    aspect-ratio: 16 / 10;
+    width: 100%;
+    border-radius: 10px;
+    background: color-mix(in oklab, var(--blue) 4%, white);
+    border: 1px solid color-mix(in oklab, var(--blue) 10%, white);
+    margin-bottom: 18px;
+    overflow: hidden;
+    display: grid; place-items: center;
+  }
+  .pilar-vis svg { width: 100%; height: 100%; }
+  .pilar-num {
+    font-family: var(--fs-mono);
+    font-size: 11px;
+    color: var(--blue);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pilar h3 {
+    margin: 0 0 8px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    color: var(--ink-950);
+  }
+  .pilar p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-500);
+  }
+
+  /* ---------- Servicios (6 cards) ---------- */
+  .servicios {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--ink-100);
+    border: 1px solid var(--ink-100);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .servicio {
+    background: white;
+    padding: 28px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 200px;
+    position: relative;
+    transition: background .2s ease;
+  }
+  .servicio:hover { background: var(--ink-50); }
+  .servicio-num {
+    position: absolute;
+    top: 18px; right: 22px;
+    font-family: var(--fs-mono);
+    font-size: 11px;
+    color: var(--ink-300);
+    letter-spacing: 0.06em;
+  }
+  .servicio-icon {
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    background: color-mix(in oklab, var(--blue) 8%, white);
+    color: var(--blue);
+    display: grid; place-items: center;
+    border: 1px solid color-mix(in oklab, var(--blue) 16%, white);
+  }
+  .servicio h3 {
+    margin: 4px 0 0;
+    font-size: 16.5px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink-950);
+  }
+  .servicio p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink-500);
+    line-height: 1.55;
+  }
+
+  /* ---------- Tipos de construcción ---------- */
+  .tipos {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .tipo {
+    border: 1px solid var(--ink-100);
+    border-radius: 12px;
+    padding: 20px 18px 22px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color .2s ease;
+    min-width: 0;
+  }
+  .tipo:hover { border-color: color-mix(in oklab, var(--blue) 22%, white); }
+  .tipo-vis {
+    aspect-ratio: 5 / 3;
+    overflow: hidden;
+    background: color-mix(in oklab, var(--blue) 4%, white);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in oklab, var(--blue) 8%, white);
+  }
+  .tipo-vis svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .tipo h4 {
+    margin: 0;
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    color: var(--ink-950);
+  }
+  .tipo p {
+    margin: 0;
+    font-size: 12.5px;
+    color: var(--ink-500);
+    line-height: 1.4;
+  }
+
+  /* ---------- Proyectos destacados ---------- */
+  .proyectos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  .proyecto {
+    border: 1px solid var(--ink-100);
+    border-radius: 14px;
+    background: white;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    display: flex; flex-direction: column;
+  }
+  .proyecto:hover { transform: translateY(-3px); box-shadow: 0 24px 40px -28px rgba(15,23,42,.18); border-color: color-mix(in oklab, var(--blue) 22%, white); }
+  .proyecto-img {
+    aspect-ratio: 4 / 3;
+    background: var(--ink-100);
+    position: relative;
+    overflow: hidden;
+  }
+  .proyecto-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform .4s ease;
+  }
+  .proyecto:hover .proyecto-img img { transform: scale(1.04); }
+  .proyecto-body {
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+  .proyecto-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--fs-mono);
+    font-size: 11px;
+    color: var(--ink-400);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .proyecto-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    background: color-mix(in oklab, var(--blue) 10%, white);
+    color: var(--blue);
+    border: 1px solid color-mix(in oklab, var(--blue) 18%, white);
+  }
+  .proyecto-status .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue); }
+  .proyecto h3 {
+    margin: 4px 0 0;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    color: var(--ink-950);
+  }
+  .proyecto p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink-500);
+  }
+  .proyectos-foot {
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  /* ---------- Contact ---------- */
+  .contacto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .contacto-info h2 {
+    font-size: clamp(28px, 3.4vw, 42px);
+    line-height: 1.05;
+    letter-spacing: -0.028em;
+    font-weight: 500;
+    margin: 0 0 18px;
+    color: var(--ink-950);
+    text-wrap: balance;
+  }
+  .contacto-info h2 em { font-family: var(--fs-serif); font-style: italic; color: var(--blue); font-weight: 400; }
+  .contacto-info > p {
+    color: var(--ink-500);
+    font-size: 16px;
+    margin: 0 0 32px;
+    max-width: 42ch;
+  }
+  .contacto-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .contacto-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .contacto-item .ic {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    border: 1px solid var(--ink-200);
+    background: var(--ink-50);
+    display: grid; place-items: center;
+    color: var(--ink-700);
+    flex: none;
+  }
+  .contacto-item .lbl { font-family: var(--fs-mono); font-size: 11px; color: var(--ink-400); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 3px; }
+  .contacto-item .val { font-size: 14.5px; color: var(--ink-900); }
+  .contacto-item .val a { color: inherit; }
+  .contacto-item .val a:hover { color: var(--blue); }
+
+  .form-card {
+    border: 1px solid var(--ink-100);
+    border-radius: 16px;
+    background: white;
+    padding: 30px 32px 32px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.8) inset, 0 24px 40px -28px rgba(15,23,42,.08);
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label {
+    font-family: var(--fs-mono);
+    font-size: 11px;
+    color: var(--ink-500);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .field input, .field textarea, .field select {
+    font-family: inherit;
+    font-size: 14.5px;
+    padding: 11px 13px;
+    border: 1px solid var(--ink-200);
+    border-radius: 9px;
+    background: white;
+    color: var(--ink-900);
+    transition: border-color .15s ease, box-shadow .15s ease;
+    outline: none;
+  }
+  .field textarea { resize: vertical; min-height: 110px; }
+  .field input:focus, .field textarea:focus, .field select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--blue) 14%, transparent);
+  }
+  .form-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .form-foot small { font-size: 12px; color: var(--ink-400); }
+  .form-foot small a { color: var(--ink-700); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    position: relative;
+    border-top: 1px solid var(--ink-100);
+    padding-top: 56px;
+    padding-bottom: 40px;
+    color: var(--ink-500);
+    font-size: 13px;
+    background: var(--paper);
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-top: 48px;
+    margin-bottom: 48px;
+  }
+  .foot-brand .brand-logo { height: 28px; margin-bottom: 14px; }
+  .foot-brand p { font-size: 13px; color: var(--ink-500); line-height: 1.6; max-width: 220px; }
+  .foot-col-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-900);
+    margin-bottom: 14px;
+  }
+  .foot-col a {
+    display: block;
+    color: var(--ink-500);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color .15s;
+  }
+  .foot-col a:hover { color: var(--ink-900); }
+  .foot-bottom {
+    border-top: 1px solid var(--ink-100);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .foot-legal { display: flex; gap: 20px; }
+  .foot-legal a { color: var(--ink-400); text-decoration: none; transition: color .15s; }
+  .foot-legal a:hover { color: var(--ink-700); }
+  @media (max-width: 768px) {
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: 1 / -1; }
+    .foot-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+  @media (max-width: 480px) {
+    .foot-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Select custom styling ---------- */
+  .field select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 4.5L6 8l3.5-3.5' stroke='%2364748b' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 34px;
+    cursor: pointer;
+  }
+
+  /* ---------- Hamburger menu button ---------- */
+  .menu-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    padding: 0;
+    color: var(--ink-900);
+    transition: border-color .15s ease, background .15s ease;
+    flex-shrink: 0;
+  }
+  .menu-btn:hover { border-color: var(--ink-300); background: var(--ink-50); }
+  .menu-btn .bar {
+    display: block;
+    width: 16px; height: 1.5px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform .22s ease, opacity .22s ease;
+    transform-origin: center;
+  }
+  .menu-btn .bars { display: flex; flex-direction: column; gap: 4.5px; }
+  .menu-btn.open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .menu-btn.open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .menu-btn.open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 40px; padding-bottom: 80px; }
+    .stage { max-width: 440px; margin: 0 auto; }
+    .pilares { grid-template-columns: 1fr; }
+    .servicios { grid-template-columns: repeat(2, 1fr); }
+    .tipos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .proyectos-grid { grid-template-columns: 1fr; }
+    .contacto-grid { grid-template-columns: 1fr; gap: 40px; }
+    .form-row { grid-template-columns: 1fr; }
+    .stat-strip { grid-template-columns: repeat(2, 1fr); }
+    .trust-row { grid-template-columns: repeat(4, 1fr); }
+      .nav-links a:not(.nav-cta) { display: none; }
+    .menu-btn { display: flex; }
+    .nav-cta { display: none; }
+    .nav { padding-top: 20px; padding-bottom: 20px; }
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 18px; }
+    .tipos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .trust-row { grid-template-columns: repeat(2, 1fr); }
+    .stat-strip { grid-template-columns: 1fr 1fr; }
+    .section { padding-top: 64px; padding-bottom: 64px; }
+    .hero { min-height: unset; padding-top: 28px; padding-bottom: 48px; }
+    h1.headline { font-size: clamp(32px, 8vw, 48px); margin: 14px 0 14px; }
+    .subhead { font-size: 15.5px; }
+  }
+  @media (max-width: 480px) {
+    .wrap { padding: 0 14px; }
+    .tipos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .servicios { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Mobile drawer ---------- */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 99;
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 15, 26, 0.35);
+    backdrop-filter: blur(2px);
+    animation: fadeInBackdrop .2s ease;
+  }
+  @keyframes fadeInBackdrop { from { opacity: 0; } to { opacity: 1; } }
+  .mobile-drawer {
+    position: absolute;
+    top: 0; right: 0;
+    width: min(300px, 88vw);
+    height: 100%;
+    background: white;
+    border-left: 1px solid var(--ink-100);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0 32px;
+    animation: slideIn .22s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: -12px 0 40px -12px rgba(10,15,26,.15);
+  }
+  @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  .mobile-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--ink-100);
+    margin-bottom: 12px;
+  }
+  .mobile-drawer-close {
+    width: 36px; height: 36px;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; padding: 0;
+    color: var(--ink-700);
+    transition: border-color .15s, background .15s;
+  }
+  .mobile-drawer-close:hover { border-color: var(--ink-300); background: var(--ink-50); }
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 4px 0;
+  }
+  .mobile-nav-links a {
+    display: flex;
+    align-items: center;
+    padding: 13px 20px;
+    font-size: 15px;
+    color: var(--ink-700);
+    font-weight: 400;
+    border-bottom: 1px solid var(--ink-50);
+    transition: color .15s, background .15s;
+  }
+  .mobile-nav-links a:hover { color: var(--ink-900); background: var(--ink-50); }
+  .mobile-drawer-cta {
+    padding: 16px 20px 0;
+    border-top: 1px solid var(--ink-100);
+    margin-top: auto;
+  }
+  .mobile-drawer-cta .btn { width: 100%; justify-content: center; }
+
+  /* ── Scroll reveal ── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 480ms cubic-bezier(0.165, 0.84, 0.44, 1),
+      transform 480ms cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition-delay: calc(var(--rd, 0) * 1ms);
+  }
+  [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page" id="page">
+
+  <!-- Navbar -->
+  <div class="nav-wrapper">
+  <nav class="nav wrap">
+    <div class="brand">
+      <img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo">
+    </div>
+    <div class="nav-links">
+      <a href="#inicio">Inicio</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="certificaciones.html">Certificaciones</a>
+      <a class="nav-cta" href="#contacto">Contáctanos
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6m0 0L5.5 2.5M8 5L5.5 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <button class="menu-btn" id="menu-btn" aria-label="Abrir menú" aria-expanded="false">
+      <span class="bars">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </span>
+    </button>
+  </nav>
+  </div>
+
+  <!-- Mobile menu drawer -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-backdrop" id="mobile-backdrop"></div>
+    <div class="mobile-drawer">
+      <div class="mobile-drawer-header">
+        <img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo">
+        <button class="mobile-drawer-close" id="menu-close" aria-label="Cerrar menú">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="#inicio">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="proyectos.html">Proyectos</a>
+        <a href="certificaciones.html">Certificaciones</a>
+      </div>
+      <div class="mobile-drawer-cta">
+        <a class="btn btn-primary" href="#contacto">
+          <span>Contáctanos</span>
+          <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L8 4m3 3L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero wrap" id="inicio">
+    <div class="hero-copy">
+      <div class="eyebrow">
+        <span class="pip">S</span>
+        <span>Inmobiliaria, ingeniería e <b>IA aplicada a la construcción</b></span>
+      </div>
+      <h1 class="headline" id="headline">Construye con <em>inteligencia</em>. Diseña más rápido.</h1>
+      <p class="subhead" id="subhead">Sicnia une promoción inmobiliaria, construcción sostenible e inteligencia artificial para entregar proyectos mejor pensados, desde el plano hasta la operación.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" id="primary-cta" href="#contacto">
+          <span>Contáctanos</span>
+          <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L8 4m3 3L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#proyectos">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 4.5v5l4-2.5z" fill="currentColor"/></svg>
+          Ver proyectos
+        </a>
+      </div>
+    </div>
+
+    <!-- Right stage: animated SVG -->
+    <div class="stage" id="stage">
+      <div class="stage-frame"></div>
+      <div class="stage-label"><span class="dot"></span><span id="stage-title">SICNIA · model.build(‘tower-a’)</span></div>
+      <div class="stage-meta" id="stage-meta">42.3s · 1,284 nodes</div>
+      <svg class="hero-svg" id="hero-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+    </div>
+  </section>
+
+  <!-- ALIADOS (social proof) -->
+  <section class="wrap trust" id="aliados">
+    <div class="trust-label" data-reveal>Aliados que confían en nosotros</div>
+    <div class="trust-row">
+      <div class="logo" data-reveal style="--rd:60"><img src="Social Proof/CEMEX.png" alt="CEMEX"></div>
+      <div class="logo" data-reveal style="--rd:120"><img src="Social Proof/BBVA.png" alt="BBVA"></div>
+      <div class="logo" data-reveal style="--rd:180"><img src="Social Proof/large_Knauf-Logo.png" alt="Knauf"></div>
+      <div class="logo" data-reveal style="--rd:240"><img src="Social Proof/acesco.png" alt="Acesco"></div>
+      <div class="logo" data-reveal style="--rd:300"><img src="Social Proof/fa9279ce852755a31bd05bb3f26f2132_360x181.44.png" alt="Aliado"></div>
+      <div class="logo" data-reveal style="--rd:360"><img src="Social Proof/3b32f612549595da1154a9d5f2a02a42.png" alt="Aliado"></div>
+      <div class="logo" data-reveal style="--rd:420"><img src="Social Proof/f597092991c3ed8ae0931042292c71c4_241x209.06024096386.png" alt="Aliado"></div>
+      <div class="logo" data-reveal style="--rd:480"><img src="Social Proof/e1761bf806485baaa1514fb502ed8ba2_400x268.png" alt="Aliado"></div>
+    </div>
+  </section>
+
+  <!-- INTRODUCCIÓN / 3 PILARES -->
+  <section class="section wrap" id="introduccion">
+    <div class="section-head" data-reveal>
+      <div class="section-kicker">Qué es Sicnia</div>
+      <h2 class="section-title">Tres disciplinas, un mismo equipo.</h2>
+      <p class="section-sub">Sicnia integra promoción inmobiliaria, ingeniería de construcción e inteligencia artificial para diseñar, construir y operar proyectos que duran décadas.</p>
+    </div>
+
+    <div class="pilares">
+      <div class="pilar" data-reveal>
+        <div class="pilar-vis">
+          <svg viewBox="0 0 220 140" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="pg1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="var(--blue)" stop-opacity="0.18"/>
+                <stop offset="1" stop-color="var(--blue)" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <g stroke="color-mix(in oklab, var(--blue) 14%, white)" stroke-width="0.5">
+              <path d="M0 110 H220 M0 90 H220 M0 70 H220"/>
+            </g>
+            <!-- Buildings rising -->
+            <g>
+              <rect x="40" y="70" width="28" height="50" fill="url(#pg1)" stroke="var(--blue)" stroke-width="1">
+                <animate attributeName="y" values="120;70;70" keyTimes="0;0.5;1" dur="4s" repeatCount="indefinite"/>
+                <animate attributeName="height" values="0;50;50" keyTimes="0;0.5;1" dur="4s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="76" y="50" width="32" height="70" fill="url(#pg1)" stroke="var(--blue)" stroke-width="1">
+                <animate attributeName="y" values="120;50;50" keyTimes="0;0.6;1" dur="4s" begin="0.3s" repeatCount="indefinite"/>
+                <animate attributeName="height" values="0;70;70" keyTimes="0;0.6;1" dur="4s" begin="0.3s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="116" y="32" width="36" height="88" fill="url(#pg1)" stroke="var(--blue)" stroke-width="1">
+                <animate attributeName="y" values="120;32;32" keyTimes="0;0.65;1" dur="4s" begin="0.6s" repeatCount="indefinite"/>
+                <animate attributeName="height" values="0;88;88" keyTimes="0;0.65;1" dur="4s" begin="0.6s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="160" y="60" width="26" height="60" fill="url(#pg1)" stroke="var(--blue)" stroke-width="1">
+                <animate attributeName="y" values="120;60;60" keyTimes="0;0.55;1" dur="4s" begin="0.9s" repeatCount="indefinite"/>
+                <animate attributeName="height" values="0;60;60" keyTimes="0;0.55;1" dur="4s" begin="0.9s" repeatCount="indefinite"/>
+              </rect>
+              <!-- Windows -->
+              <g fill="var(--blue)" opacity="0.55">
+                <rect x="46" y="80" width="4" height="4"/><rect x="56" y="80" width="4" height="4"/>
+                <rect x="46" y="92" width="4" height="4"/><rect x="56" y="92" width="4" height="4"/>
+                <rect x="82" y="60" width="4" height="4"/><rect x="92" y="60" width="4" height="4"/><rect x="100" y="60" width="4" height="4"/>
+                <rect x="82" y="74" width="4" height="4"/><rect x="92" y="74" width="4" height="4"/><rect x="100" y="74" width="4" height="4"/>
+                <rect x="124" y="42" width="4" height="4"/><rect x="134" y="42" width="4" height="4"/><rect x="142" y="42" width="4" height="4"/>
+                <rect x="124" y="56" width="4" height="4"/><rect x="134" y="56" width="4" height="4"/><rect x="142" y="56" width="4" height="4"/>
+                <rect x="166" y="70" width="4" height="4"/><rect x="176" y="70" width="4" height="4"/>
+              </g>
+            </g>
+            <line x1="0" y1="120" x2="220" y2="120" stroke="var(--ink-700)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="pilar-num">01 · Inmobiliaria</div>
+        <h3>Promoción y desarrollo</h3>
+        <p>Estructuramos, vendemos y operamos proyectos residenciales, institucionales y de uso mixto desde el primer lote.</p>
+      </div>
+
+      <div class="pilar" data-reveal style="--rd:120">
+        <div class="pilar-vis">
+          <svg viewBox="0 0 220 140" preserveAspectRatio="xMidYMid meet">
+            <!-- Blueprint with self-drawing structural frame -->
+            <g stroke="color-mix(in oklab, var(--blue) 14%, white)" stroke-width="0.5">
+              <path d="M0 30 H220 M0 50 H220 M0 70 H220 M0 90 H220 M0 110 H220"/>
+              <path d="M30 0 V140 M70 0 V140 M110 0 V140 M150 0 V140 M190 0 V140"/>
+            </g>
+            <!-- I-beam frame -->
+            <g fill="none" stroke="var(--blue)" stroke-width="1.4" stroke-linecap="round">
+              <path d="M40 110 V40 M180 110 V40 M40 40 H180" stroke-dasharray="280" stroke-dashoffset="280">
+                <animate attributeName="stroke-dashoffset" values="280;0;0;280" keyTimes="0;0.4;0.85;1" dur="4.5s" repeatCount="indefinite"/>
+              </path>
+              <!-- Diagonals -->
+              <path d="M40 110 L110 40 M180 110 L110 40 M70 110 L110 75 M150 110 L110 75" stroke-dasharray="320" stroke-dashoffset="320">
+                <animate attributeName="stroke-dashoffset" values="320;320;0;0;320" keyTimes="0;0.35;0.7;0.9;1" dur="4.5s" repeatCount="indefinite"/>
+              </path>
+            </g>
+            <!-- Joints -->
+            <g fill="white" stroke="var(--blue)" stroke-width="1.2">
+              <circle cx="40" cy="40" r="3"/><circle cx="180" cy="40" r="3"/>
+              <circle cx="40" cy="110" r="3"/><circle cx="180" cy="110" r="3"/>
+              <circle cx="110" cy="40" r="3"/><circle cx="110" cy="75" r="3"/>
+              <circle cx="70" cy="110" r="3"/><circle cx="150" cy="110" r="3"/>
+            </g>
+            <!-- Dimension -->
+            <g stroke="var(--ink-400)" stroke-width="0.6">
+              <line x1="40" y1="125" x2="180" y2="125"/>
+              <line x1="40" y1="122" x2="40" y2="128"/>
+              <line x1="180" y1="122" x2="180" y2="128"/>
+            </g>
+            <text x="110" y="135" text-anchor="middle" font-family="var(--fs-mono)" font-size="7" fill="var(--ink-500)">14.0 m</text>
+          </svg>
+        </div>
+        <div class="pilar-num">02 · Ingeniería</div>
+        <h3>Construcción sostenible</h3>
+        <p>Sistemas industrializados, sismoresistentes y bioclimáticos, ejecutados con los mejores materiales y proveedores de alto desempeño.</p>
+      </div>
+
+      <div class="pilar" data-reveal style="--rd:240">
+        <div class="pilar-vis">
+          <svg viewBox="0 0 220 140" preserveAspectRatio="xMidYMid meet">
+            <!-- Neural network: nodes and synapses learning a structural pattern -->
+            <g stroke="color-mix(in oklab, var(--blue) 14%, white)" stroke-width="0.5">
+              <circle cx="110" cy="70" r="58" fill="none"/>
+              <circle cx="110" cy="70" r="40" fill="none"/>
+              <circle cx="110" cy="70" r="22" fill="none"/>
+            </g>
+            <!-- Input nodes -->
+            <g>
+              <g fill="var(--ink-400)">
+                <circle cx="40" cy="40" r="3"/>
+                <circle cx="40" cy="70" r="3"/>
+                <circle cx="40" cy="100" r="3"/>
+              </g>
+              <!-- Hidden -->
+              <g fill="var(--blue)">
+                <circle cx="110" cy="35" r="3.5"/>
+                <circle cx="110" cy="70" r="4"/>
+                <circle cx="110" cy="105" r="3.5"/>
+              </g>
+              <!-- Output -->
+              <g fill="var(--ink-900)">
+                <circle cx="180" cy="55" r="3.5"/>
+                <circle cx="180" cy="85" r="3.5"/>
+              </g>
+            </g>
+            <!-- Synapses -->
+            <g stroke="color-mix(in oklab, var(--blue) 35%, white)" stroke-width="0.7" fill="none">
+              <path d="M40 40 L110 35 M40 40 L110 70 M40 40 L110 105"/>
+              <path d="M40 70 L110 35 M40 70 L110 70 M40 70 L110 105"/>
+              <path d="M40 100 L110 35 M40 100 L110 70 M40 100 L110 105"/>
+              <path d="M110 35 L180 55 M110 35 L180 85"/>
+              <path d="M110 70 L180 55 M110 70 L180 85"/>
+              <path d="M110 105 L180 55 M110 105 L180 85"/>
+            </g>
+            <!-- Animated pulses -->
+            <g fill="var(--blue)">
+              <circle r="2">
+                <animateMotion dur="2.4s" repeatCount="indefinite" path="M40 40 L110 70 L180 85"/>
+              </circle>
+              <circle r="2">
+                <animateMotion dur="2.8s" begin="0.4s" repeatCount="indefinite" path="M40 70 L110 35 L180 55"/>
+              </circle>
+              <circle r="2">
+                <animateMotion dur="2.6s" begin="0.9s" repeatCount="indefinite" path="M40 100 L110 105 L180 85"/>
+              </circle>
+              <circle r="2">
+                <animateMotion dur="2.2s" begin="1.2s" repeatCount="indefinite" path="M40 70 L110 70 L180 55"/>
+              </circle>
+            </g>
+            <!-- Pulsing core -->
+            <circle cx="110" cy="70" r="6" fill="var(--blue)" opacity="0.25">
+              <animate attributeName="r" values="6;14;6" dur="2.4s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.35;0;0.35" dur="2.4s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+        </div>
+        <div class="pilar-num">03 · IA</div>
+        <h3>Inteligencia aplicada</h3>
+        <p>Modelos propios que asisten al equipo en diseño, validación normativa y seguimiento de obra para decidir con datos, no con corazonadas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="section wrap" id="servicios" style="padding-top: 40px;">
+    <div class="section-head" data-reveal>
+      <div class="section-kicker">Qué hacemos</div>
+      <h2 class="section-title">Servicios de extremo a extremo.</h2>
+      <p class="section-sub">Desde la idea inicial hasta la operación del edificio terminado, acompañamos cada etapa con un equipo propio.</p>
+    </div>
+
+    <div class="servicios">
+      <div class="servicio" data-reveal>
+        <span class="servicio-num">01</span>
+        <div class="servicio-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 17V8l7-5 7 5v9" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 17v-5h4v5" stroke="currentColor" stroke-width="1.4"/><path d="M3 17h14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Estructuración y promoción</h3>
+        <p>Definimos el modelo de negocio, viabilidad y comercialización inicial de cada proyecto.</p>
+      </div>
+
+      <div class="servicio" data-reveal style="--rd:80">
+        <span class="servicio-num">02</span>
+        <div class="servicio-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 7h12l-1 9H5L4 7z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <h3>Venta</h3>
+        <p>Equipo comercial dedicado que acompaña al cliente desde la sala de ventas hasta la entrega.</p>
+      </div>
+
+      <div class="servicio" data-reveal style="--rd:160">
+        <span class="servicio-num">03</span>
+        <div class="servicio-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L17 6v8l-7 4-7-4V6l7-4z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M3 6l7 4 7-4M10 10v8" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <h3>Construcción</h3>
+        <p>Ejecución directa con sistemas industrializados, control de calidad y cumplimiento de cronograma.</p>
+      </div>
+
+      <div class="servicio" data-reveal style="--rd:240">
+        <span class="servicio-num">04</span>
+        <div class="servicio-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Gerencia</h3>
+        <p>Dirigimos proyectos de terceros con la misma rigurosidad técnica y financiera que los propios.</p>
+      </div>
+
+      <div class="servicio" data-reveal style="--rd:320">
+        <span class="servicio-num">05</span>
+        <div class="servicio-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7" cy="7" r="3" stroke="currentColor" stroke-width="1.4"/><circle cx="14" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 17c0-2.5 2.2-4.5 5-4.5s5 2 5 4.5M11.5 17c0-1.8 1.5-3 3-3s3 1.2 3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Dotación</h3>
+        <p>Suministro y montaje de equipamiento técnico para que el inmueble quede listo para operar.</p>
+      </div>
+
+      <div class="servicio" data-reveal style="--rd:400">
+        <span class="servicio-num">06</span>
+        <div class="servicio-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M3 8h14M8 3v14" stroke="currentColor" stroke-width="1.4"/></svg>
+        </div>
+        <h3>Administración y operación</h3>
+        <p>Gestión inmobiliaria de copropiedades y activos en uso, con foco en confort y valorización.</p>
+      </div>
+    </div>
+
+    <!-- Stats reales -->
+    <div class="stat-strip">
+      <div class="stat" data-reveal><div class="stat-num">+10</div><div class="stat-label">Años de experiencia en el sector</div></div>
+      <div class="stat" data-reveal style="--rd:80"><div class="stat-num">15+</div><div class="stat-label">Proyectos desarrollados</div></div>
+      <div class="stat" data-reveal style="--rd:160"><div class="stat-num">3</div><div class="stat-label">Ciudades con presencia activa</div></div>
+      <div class="stat" data-reveal style="--rd:240"><div class="stat-num">100%</div><div class="stat-label">Diseños bioclimáticos y sostenibles</div></div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS DESTACADOS -->
+  <section class="section wrap" id="proyectos" style="padding-top: 40px;">
+    <div class="section-head" data-reveal>
+      <div class="section-kicker">Proyectos destacados</div>
+      <h2 class="section-title">Una muestra de lo que construimos.</h2>
+      <p class="section-sub">Residencial, institucional y vivienda de interés social , cada proyecto pensado para sus usuarios y su entorno.</p>
+    </div>
+
+    <div class="proyectos-grid">
+      <a class="proyecto" href="proyectos.html" data-reveal>
+        <div class="proyecto-img"><img src="Images/FUCS.jpeg" alt="FUCS"></div>
+        <div class="proyecto-body">
+          <div class="proyecto-meta">
+            <span>Bogotá · Institucional</span>
+            <span class="proyecto-status"><span class="dot"></span>En venta</span>
+          </div>
+          <h3>FUCS</h3>
+          <p>Proyecto institucional para la Fundación Universitaria de Ciencias de la Salud.</p>
+        </div>
+      </a>
+
+      <a class="proyecto" href="proyectos.html" data-reveal style="--rd:100">
+        <div class="proyecto-img"><img src="Images/Flat 119.jpeg" alt="Flat 119"></div>
+        <div class="proyecto-body">
+          <div class="proyecto-meta">
+            <span>Bogotá · Estrato 5</span>
+            <span class="proyecto-status"><span class="dot"></span>En venta</span>
+          </div>
+          <h3>Flat 119</h3>
+          <p>Apartamentos compactos con acabados premium en ubicación estratégica.</p>
+        </div>
+      </a>
+
+      <a class="proyecto" href="proyectos.html" data-reveal style="--rd:200">
+        <div class="proyecto-img"><img src="Images/Arena Suites.jpeg" alt="Arena Suites"></div>
+        <div class="proyecto-body">
+          <div class="proyecto-meta">
+            <span>Bogotá · Estrato 6</span>
+            <span class="proyecto-status"><span class="dot"></span>En operación</span>
+          </div>
+          <h3>Arena Suites</h3>
+          <p>Suites residenciales de alto estándar con concepto de hospitalidad.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="proyectos-foot">
+      <a class="btn btn-ghost" href="proyectos.html">Ver todos los proyectos
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L8 4m3 3L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- TIPOS DE CONSTRUCCIÓN -->
+  <section class="section wrap" id="tipos" style="padding-top: 40px;">
+    <div class="section-head" data-reveal>
+      <div class="section-kicker">Tipos de construcción</div>
+      <h2 class="section-title">Cinco escalas, una misma rigurosidad.</h2>
+    </div>
+
+    <div class="tipos">
+      <div class="tipo" data-reveal>
+        <div class="tipo-vis">
+          <svg viewBox="0 0 100 60">
+            <g fill="none" stroke="var(--blue)" stroke-width="1.2">
+              <rect x="20" y="14" width="60" height="40"/>
+              <path d="M30 20h8M44 20h8M58 20h8M30 30h8M44 30h8M58 30h8M30 40h8M44 40h8M58 40h8" stroke-width="1"/>
+            </g>
+            <path d="M15 54 H85" stroke="var(--ink-700)" stroke-width="1"/>
+          </svg>
+        </div>
+        <h4>Multifamiliar</h4>
+        <p>Edificios residenciales urbanos.</p>
+      </div>
+
+      <div class="tipo" data-reveal style="--rd:80">
+        <div class="tipo-vis">
+          <svg viewBox="0 0 100 60">
+            <g fill="none" stroke="var(--blue)" stroke-width="1.2">
+              <path d="M22 50 V28 L50 12 L78 28 V50 Z"/>
+              <path d="M42 50 V36 H58 V50" stroke-width="1"/>
+            </g>
+            <path d="M15 50 H85" stroke="var(--ink-700)" stroke-width="1"/>
+          </svg>
+        </div>
+        <h4>Unifamiliar</h4>
+        <p>Casas a la medida del cliente.</p>
+      </div>
+
+      <div class="tipo" data-reveal style="--rd:160">
+        <div class="tipo-vis">
+          <svg viewBox="0 0 100 60">
+            <g fill="none" stroke="var(--blue)" stroke-width="1.2">
+              <rect x="14" y="22" width="20" height="32"/>
+              <rect x="40" y="14" width="20" height="40"/>
+              <rect x="66" y="26" width="20" height="28"/>
+              <path d="M18 30h4M28 30h4M44 22h4M54 22h4M44 36h4M54 36h4M70 34h4M80 34h4" stroke-width="1"/>
+            </g>
+            <path d="M10 54 H90" stroke="var(--ink-700)" stroke-width="1"/>
+          </svg>
+        </div>
+        <h4>VIS / VIP</h4>
+        <p>Vivienda de interés social y prioritario.</p>
+      </div>
+
+      <div class="tipo" data-reveal style="--rd:240">
+        <div class="tipo-vis">
+          <svg viewBox="0 0 100 60">
+            <g fill="none" stroke="var(--blue)" stroke-width="1.2">
+              <path d="M14 50 V22 L86 22 V50 Z"/>
+              <path d="M14 22 L50 8 L86 22" />
+              <path d="M44 50 V34 H56 V50" stroke-width="1"/>
+            </g>
+            <path d="M10 50 H90" stroke="var(--ink-700)" stroke-width="1"/>
+          </svg>
+        </div>
+        <h4>Institucional</h4>
+        <p>Universidades, clínicas y oficinas.</p>
+      </div>
+
+      <div class="tipo" data-reveal style="--rd:320">
+        <div class="tipo-vis">
+          <svg viewBox="0 0 100 60">
+            <g fill="none" stroke="var(--blue)" stroke-width="1.2">
+              <rect x="20" y="20" width="60" height="34"/>
+              <path d="M20 28h60M28 20v34M48 20v34M68 20v34" stroke-width="0.8" stroke-dasharray="2 2"/>
+            </g>
+            <path d="M14 54 H86" stroke="var(--ink-700)" stroke-width="1"/>
+          </svg>
+        </div>
+        <h4>Adecuaciones</h4>
+        <p>Remodelaciones y reformas técnicas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="section wrap" id="contacto">
+    <div class="contacto-grid">
+      <div class="contacto-info" data-reveal>
+        <div class="section-kicker">Hablemos</div>
+        <h2>¿Listo para tu <em>próximo proyecto</em>?</h2>
+        <p>Cuéntanos de tu idea, tu lote o tu inversión. Te respondemos con un primer análisis en 48 horas.</p>
+
+        <div class="contacto-list">
+          <div class="contacto-item">
+            <div class="ic">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 14s5-4.5 5-8.5a5 5 0 1 0-10 0C3 9.5 8 14 8 14z" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="5.5" r="1.8" stroke="currentColor" stroke-width="1.3"/></svg>
+            </div>
+            <div>
+              <div class="lbl">Oficina</div>
+              <div class="val">Calle 63 #30-10, Bogotá, Colombia</div>
+            </div>
+          </div>
+          <div class="contacto-item">
+            <div class="ic">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3.5a1 1 0 0 1 1-1h2l1.5 3.5L6 7.5a8 8 0 0 0 2.5 2.5l1.5-1.5L13.5 10v2a1 1 0 0 1-1 1A9.5 9.5 0 0 1 3 3.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="lbl">Teléfono</div>
+              <div class="val"><a href="tel:+5718050232">+57 (1) 805 02 32</a></div>
+            </div>
+          </div>
+          <div class="contacto-item">
+            <div class="ic">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3.5" width="12" height="9" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 4.5 L8 9 L13.5 4.5" stroke="currentColor" stroke-width="1.3"/></svg>
+            </div>
+            <div>
+              <div class="lbl">Correo</div>
+              <div class="val"><a href="mailto:ventas@interpanelsa.com">ventas@interpanelsa.com</a></div>
+            </div>
+          </div>
+          <div class="contacto-item">
+            <div class="ic">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M8 4v4l2.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <div class="lbl">Atención</div>
+              <div class="val">Lun a Vie · 8:00 a 17:30</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form class="form-card" id="contacto-form" data-reveal style="--rd:120">
+        <div class="form-row">
+          <div class="field">
+            <label for="f-nombre">Nombre</label>
+            <input id="f-nombre" name="nombre" type="text" placeholder="Tu nombre completo" required>
+          </div>
+          <div class="field">
+            <label for="f-email">Correo</label>
+            <input id="f-email" name="email" type="email" placeholder="tu@correo.com" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="f-tel">Teléfono</label>
+            <input id="f-tel" name="telefono" type="tel" placeholder="+57 300 000 0000">
+          </div>
+          <div class="field">
+            <label for="f-tema">Tema</label>
+            <select id="f-tema" name="tema">
+              <option>Quiero comprar</option>
+              <option>Tengo un lote</option>
+              <option>Servicios de gerencia</option>
+              <option>Alianza / proveedor</option>
+              <option>Otro</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field full">
+            <label for="f-msg">Mensaje</label>
+            <textarea id="f-msg" name="mensaje" placeholder="Cuéntanos brevemente de tu proyecto..."></textarea>
+          </div>
+        </div>
+        <div class="form-foot">
+          <small>Al enviar aceptas nuestra <a href="#">política de privacidad</a>.</small>
+          <button type="submit" class="btn btn-primary" id="contacto-btn">
+            Enviar mensaje
+            <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L8 4m3 3L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p id="contacto-status" style="display:none; margin-top:14px; font-size:14px; text-align:center;"></p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo">
+        <p>Inmobiliaria · Ingeniería · Inteligencia Artificial.<br>Construimos proyectos que duran décadas.</p>
+      </div>
+
+      <div class="foot-col">
+        <div class="foot-col-title">Navegación</div>
+        <a href="#inicio">Inicio</a>
+        <a href="#introduccion">Qué es Sicnia</a>
+        <a href="#servicios">Servicios</a>
+        <a href="proyectos.html">Proyectos</a>
+        <a href="#tipos">Tipos de construcción</a>
+      </div>
+
+      <div class="foot-col">
+        <div class="foot-col-title">Empresa</div>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="#aliados">Aliados</a>
+        <a href="#certificaciones">Certificaciones</a>
+      </div>
+
+      <div class="foot-col">
+        <div class="foot-col-title">Contacto</div>
+        <a href="#contacto">Enviar mensaje</a>
+        <a href="tel:+5718050232">+57 (1) 805 02 32</a>
+        <a href="https://maps.google.com/?q=Calle+63+%2330-10+Bogotá" target="_blank" rel="noopener">Calle 63 #30-10, Bogotá, Colombia</a>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <div>© 2026 Sicnia. Todos los derechos reservados.</div>
+      <div class="foot-legal">
+        <a href="#">Política de privacidad</a>
+        <a href="#">Términos de uso</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // ---------- Hero SVG: isometric building (wireframe → solid) ----------
+  const svg = document.getElementById('hero-svg');
+  const NS = 'http://www.w3.org/2000/svg';
+  function el(name, attrs = {}) {
+    const n = document.createElementNS(NS, name);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
+  function clear() { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+  // Isometric helpers
+  const CX = 200, CY = 210, U = 20;
+  const ISO_X = { x: U * Math.cos(Math.PI / 6),  y: -U * Math.sin(Math.PI / 6) };
+  const ISO_Y = { x: -U * Math.cos(Math.PI / 6), y: -U * Math.sin(Math.PI / 6) };
+  const ISO_Z = { x: 0, y: -U };
+  function iso(x, y, z) {
+    return [
+      CX + x * ISO_X.x + y * ISO_Y.x + z * ISO_Z.x,
+      CY + x * ISO_X.y + y * ISO_Y.y + z * ISO_Z.y,
+    ];
+  }
+  function facePath(pts) {
+    return pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(2) + ' ' + p[1].toFixed(2)).join(' ') + ' Z';
+  }
+
+  function drawIsometricBuilding() {
+    clear();
+
+    // Base grid
+    const grid = el('g', { stroke: 'var(--ink-200)', 'stroke-width': '0.6', fill: 'none', opacity: '0.85' });
+    for (let i = -4; i <= 4; i++) {
+      const [ax, ay] = iso(i, -4, 0); const [bx, by] = iso(i, 4, 0);
+      grid.appendChild(el('line', { x1: ax, y1: ay, x2: bx, y2: by }));
+      const [cx, cy] = iso(-4, i, 0); const [dx, dy] = iso(4, i, 0);
+      grid.appendChild(el('line', { x1: cx, y1: cy, x2: dx, y2: dy }));
+    }
+    svg.appendChild(grid);
+
+    // Ambient particles
+    const dots = el('g');
+    for (let i = 0; i < 18; i++) {
+      const x = 40 + Math.random() * 320, y = 30 + Math.random() * 340;
+      const d = el('circle', { cx: x, cy: y, r: 1.1, fill: 'var(--blue)', opacity: 0 });
+      d.style.animation = `fadeIn .8s ${0.6 + Math.random() * 1.5}s forwards`;
+      dots.appendChild(d);
+    }
+    svg.appendChild(dots);
+
+    // Building blocks: [x0,y0,x1,y1,z0,z1, colorIdx]
+    const blocks = [
+      [-3, -3, 3, 3, 0, 1, 0],
+      [-3, -3, 3, -1, 1, 4, 1],
+      [-2, -1, 2, 1, 1, 5, 2],
+      [-3, 1, 3, 3, 1, 3, 1],
+      [-1, 0, 1, 2, 5, 6, 3],
+      [-0.2, 0.4, 0.2, 0.8, 6, 8.5, 4],
+    ];
+
+    const BASE_DELAY = 0.15;
+    const STEP = 0.35;
+    const DRAW_DUR = 0.9;
+    const FILL_DELAY_EXTRA = 0.15;
+
+    const fillColors = [
+      'color-mix(in oklab, var(--blue) 10%, white)',
+      'color-mix(in oklab, var(--blue) 14%, white)',
+      'color-mix(in oklab, var(--blue) 20%, white)',
+      'color-mix(in oklab, var(--blue) 32%, white)',
+      'var(--blue)',
+    ];
+
+    blocks.forEach((blk, k) => {
+      const [x0, y0, x1, y1, z0, z1, ci] = blk;
+      const delay = BASE_DELAY + k * STEP;
+
+      const p = [
+        iso(x0, y0, z0), iso(x1, y0, z0), iso(x1, y1, z0), iso(x0, y1, z0),
+        iso(x0, y0, z1), iso(x1, y0, z1), iso(x1, y1, z1), iso(x0, y1, z1),
+      ];
+
+      const top   = facePath([p[4], p[5], p[6], p[7]]);
+      const right = facePath([p[1], p[5], p[6], p[2]]);
+      const left  = facePath([p[2], p[6], p[7], p[3]]);
+
+      const g = el('g');
+      [top, right, left].forEach((d, fi) => {
+        const shades = [
+          fillColors[ci],
+          `color-mix(in oklab, ${fillColors[ci]} 82%, black)`,
+          `color-mix(in oklab, ${fillColors[ci]} 70%, black)`,
+        ];
+        const fp = el('path', { d, fill: shades[fi], 'fill-opacity': 0, stroke: 'var(--ink-900)', 'stroke-width': 0.6, 'stroke-opacity': 0.85 });
+        fp.style.animation = `fillIn .6s ${delay + DRAW_DUR + FILL_DELAY_EXTRA}s forwards`;
+        g.appendChild(fp);
+      });
+
+      const edges = [
+        [0,1],[1,2],[2,3],[3,0],
+        [4,5],[5,6],[6,7],[7,4],
+        [0,4],[1,5],[2,6],[3,7],
+      ];
+      edges.forEach(([a, b]) => {
+        const line = el('line', {
+          x1: p[a][0], y1: p[a][1], x2: p[b][0], y2: p[b][1],
+          stroke: 'var(--blue)', 'stroke-width': 1.1, 'stroke-linecap': 'round', fill: 'none',
+        });
+        const len = Math.hypot(p[b][0] - p[a][0], p[b][1] - p[a][1]) + 1;
+        line.setAttribute('stroke-dasharray', len);
+        line.setAttribute('stroke-dashoffset', len);
+        line.style.animation = `draw ${DRAW_DUR}s ${delay}s forwards cubic-bezier(.6,.05,.25,1)`;
+        g.appendChild(line);
+      });
+
+      p.forEach((pt) => {
+        const n = el('circle', { cx: pt[0], cy: pt[1], r: 1.4, fill: 'var(--blue)', opacity: 0 });
+        n.style.animation = `fadeIn .3s ${delay + DRAW_DUR * 0.3}s forwards`;
+        g.appendChild(n);
+      });
+
+      svg.appendChild(g);
+    });
+
+    // Dimension callout
+    const totalDelay = BASE_DELAY + blocks.length * STEP + DRAW_DUR + 0.5;
+    const label = el('g', { opacity: 0 });
+    label.style.animation = `fadeIn .6s ${totalDelay}s forwards`;
+    const [lx, ly] = iso(3.1, -3.1, 0);
+    const [tx, ty] = iso(3.8, -3.8, 2);
+    label.appendChild(el('line', { x1: lx, y1: ly, x2: tx, y2: ty, stroke: 'var(--ink-400)', 'stroke-width': 0.6 }));
+    label.appendChild(el('circle', { cx: tx, cy: ty, r: 2, fill: 'white', stroke: 'var(--blue)', 'stroke-width': 1.2 }));
+    label.appendChild(el('rect', { x: tx + 6, y: ty - 9, width: 64, height: 18, rx: 4, fill: 'white', stroke: 'var(--ink-200)' }));
+    const ttext = el('text', { x: tx + 12, y: ty + 3, 'font-size': 10, fill: 'var(--ink-700)', 'font-family': 'var(--fs-mono)' });
+    ttext.textContent = 'H = 26.4 m';
+    label.appendChild(ttext);
+    svg.appendChild(label);
+
+    // Loop
+    const total = totalDelay + 3.2;
+    clearTimeout(svg._loop);
+    svg._loop = setTimeout(() => {
+      svg.style.transition = 'opacity .5s ease';
+      svg.style.opacity = '0';
+      setTimeout(() => { svg.style.opacity = '1'; drawIsometricBuilding(); }, 550);
+    }, total * 1000);
+  }
+
+  drawIsometricBuilding();
+</script>
+
+
+  <script>
+    // ── Formulario de contacto ──────────────────────────────────────────────
+    // Para cambiar el correo destino: ve a formspree.io, crea un formulario
+    // con el nuevo correo y reemplaza el ID a continuación.
+    const FORMSPREE_ID = 'TU_ID_AQUI'; // ← reemplazar tras registrarse en formspree.io
+
+    document.getElementById('contacto-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn    = document.getElementById('contacto-btn');
+      const status = document.getElementById('contacto-status');
+      const form   = e.target;
+
+      btn.disabled = true;
+      btn.textContent = 'Enviando…';
+
+      try {
+        const res = await fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        });
+
+        if (res.ok) {
+          status.style.color = '#16a34a';
+          status.textContent = '✓ Mensaje enviado. Te contactaremos pronto.';
+          status.style.display = 'block';
+          form.reset();
+          btn.textContent = 'Enviado ✓';
+        } else {
+          throw new Error();
+        }
+      } catch {
+        status.style.color = '#dc2626';
+        status.textContent = 'Hubo un error al enviar. Escríbenos directamente a ventas@interpanelsa.com';
+        status.style.display = 'block';
+        btn.disabled = false;
+        btn.innerHTML = 'Enviar mensaje <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L8 4m3 3L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      }
+    });
+  </script>
+
+  <script>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+      document.querySelectorAll('[data-reveal]').forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+  </script>
+
+  <script>
+    (function() {
+      const btn = document.getElementById('menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      const backdrop = document.getElementById('mobile-backdrop');
+      const closeBtn = document.getElementById('menu-close');
+      const links = menu.querySelectorAll('a');
+
+      function openMenu() {
+        menu.classList.add('open');
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMenu() {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      btn.addEventListener('click', openMenu);
+      closeBtn.addEventListener('click', closeMenu);
+      backdrop.addEventListener('click', closeMenu);
+      links.forEach(function(a) { a.addEventListener('click', closeMenu); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMenu(); });
+    })();
+  </script>
+</body>
+</html>

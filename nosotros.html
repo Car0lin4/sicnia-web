@@ -513,6 +513,25 @@
   @media (prefers-reduced-motion: reduce) {
     [data-reveal] { opacity: 1; transform: none; transition: none; }
   }
+
+  /* CV Juan Diego */
+  .cv-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--ink-100);
+  }
+  .cv-item:first-child { border-top: 1px solid var(--ink-100); }
+  .cv-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink-950);
+    line-height: 1.4;
+    margin-bottom: 3px;
+  }
+  .cv-meta {
+    font-size: 13px;
+    color: var(--ink-500);
+    line-height: 1.5;
+  }
 </style>
 </head>
 <body>
@@ -574,16 +593,77 @@
     </div>
   </section>
 
-  <!-- DIDIER RINCÓN -->
+  <!-- JUAN DIEGO CV -->
   <section class="section wrap" style="border-top: 1px solid var(--ink-100);">
-    <div class="section-kicker" data-reveal>Nuestro arquitecto</div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;">
-      <div data-reveal style="--rd:60">
-        <h2 style="font-size: clamp(26px, 3vw, 38px); font-weight: 500; letter-spacing: -0.026em; line-height: 1.08; color: var(--ink-950); margin: 0 0 22px; text-wrap: balance;">Diseñado por quien pone el <em style="font-family: var(--fs-serif); font-style: italic; font-weight: 400; color: var(--blue);">bienestar humano</em> al centro.</h2>
-        <p style="font-size: 16px; line-height: 1.75; color: var(--ink-700); margin: 0 0 16px; text-wrap: pretty;">Nuestros proyectos son diseñados por el prestigioso arquitecto Didier Rincón, quien tiene especial cuidado en el bienestar de las personas y en la implantación armónica de cada obra en su entorno.</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;" data-reveal>
+      <div>
+        <div class="section-kicker" style="margin-bottom: 14px;">Quién lidera Sicnia</div>
+        <h2 style="font-size: clamp(26px, 3vw, 38px); font-weight: 500; letter-spacing: -0.026em; line-height: 1.08; color: var(--ink-950); margin: 0 0 20px; text-wrap: balance;">Juan Diego —<br><em style="font-family: var(--fs-serif); font-style: italic; font-weight: 400; color: var(--blue);">más de 40 años</em> construyendo criterio.</h2>
+        <p style="font-size: 16px; line-height: 1.75; color: var(--ink-700); margin: 0; text-wrap: pretty;">Ingeniero civil con cuatro décadas de experiencia en proyectos inmobiliarios, de ingeniería y construcción. Su valor está en el conocimiento acumulado para decirle a cada cliente exactamente qué hacer y qué no hacer.</p>
       </div>
-      <div data-reveal style="--rd:160">
-        <blockquote style="margin: 0; padding: 20px 22px; border-left: 3px solid var(--blue); background: color-mix(in oklab, var(--blue) 4%, white); border-radius: 0 10px 10px 0; font-family: var(--fs-serif); font-style: italic; font-size: 22px; line-height: 1.5; color: var(--ink-900); letter-spacing: -0.01em;">"La buena arquitectura no se impone al entorno — lo completa."</blockquote>
+      <div>
+        <div style="display: flex; flex-direction: column; gap: 0;">
+
+          <div class="cv-item" data-reveal style="--rd:40">
+            <div class="cv-title">Ingeniero Civil</div>
+            <div class="cv-meta">Universidad Javeriana</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:60">
+            <div class="cv-title">Especialista en Gerencia de Construcciones</div>
+            <div class="cv-meta">Universidad Javeriana</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:80">
+            <div class="cv-title">MBA</div>
+            <div class="cv-meta">ITESM México</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:100">
+            <div class="cv-title">Ejecutivo</div>
+            <div class="cv-meta">Fiberglass / Banco de Bogotá</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:120">
+            <div class="cv-title">Gerente General</div>
+            <div class="cv-meta">Stoncor Group México</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:140">
+            <div class="cv-title">Gerente Regional</div>
+            <div class="cv-meta">Degussa México</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:160">
+            <div class="cv-title">Empresario de la Construcción</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:180">
+            <div class="cv-title">Profesor Administración Financiera</div>
+            <div class="cv-meta">Universidad Javeriana</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:200">
+            <div class="cv-title">Profesor Organización de Obras</div>
+            <div class="cv-meta">ITESM México</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:220">
+            <div class="cv-title">Profesor Maestría en Mercadeo</div>
+            <div class="cv-meta">Universidad Javeriana</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:240">
+            <div class="cv-title">Expositor</div>
+            <div class="cv-meta">Asocreto / Camacol</div>
+          </div>
+
+          <div class="cv-item" data-reveal style="--rd:260">
+            <div class="cv-title">Revisor Guía Sistemas Livianos</div>
+            <div class="cv-meta">Camacol</div>
+          </div>
+
+        </div>
       </div>
     </div>
   </section>

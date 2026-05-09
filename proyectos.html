@@ -312,6 +312,54 @@
     transform: scale(1.03);
   }
 
+  /* ---------- Card image slider ---------- */
+  .card-img.has-slides .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity .55s ease, transform .4s ease;
+    display: block;
+  }
+  .card-img.has-slides .slide.active { opacity: 1; }
+  .project-card:hover .card-img.has-slides img { transform: none; }
+  .project-card:hover .card-img.has-slides .slide.active { transform: scale(1.03); }
+  .slide-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 5px;
+    z-index: 3;
+  }
+  .slide-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.5);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+  }
+  .slide-dot.active {
+    background: #fff;
+    transform: scale(1.3);
+  }
+
+  /* ---------- Video card ---------- */
+  .card-img.card-video { background: #000; }
+  .card-img.card-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .project-card:hover .card-img.card-video video { transform: none; }
+
   .card-badges {
     position: absolute;
     top: 12px;
@@ -581,7 +629,7 @@
         </div>
       </div>
 
-      <span class="results-count"><span id="count">9</span> proyectos</span>
+      <span class="results-count"><span id="count">15</span> proyectos</span>
 
     </div>
   </div>
@@ -633,8 +681,13 @@
         data-estado="vendido"
         data-tipo="residencial"
         data-ciudad="bogota">
-        <div class="card-img">
-          <img src="Images/Prado 134.jpeg" alt="Prado 134" loading="lazy">
+        <div class="card-img has-slides">
+          <img src="Images/Prado 134.jpeg" alt="Prado 134" loading="lazy" class="slide active">
+          <img src="Images/Prado 134 2.jpeg" alt="Prado 134" loading="lazy" class="slide">
+          <div class="slide-dots">
+            <button class="slide-dot active" aria-label="Imagen 1"></button>
+            <button class="slide-dot" aria-label="Imagen 2"></button>
+          </div>
           <div class="card-badges">
             <span class="badge badge-estado-vendido">Vendido</span>
             <span class="badge badge-tipo">Residencial</span>
@@ -671,8 +724,13 @@
         data-estado="venta"
         data-tipo="residencial"
         data-ciudad="bogota">
-        <div class="card-img">
-          <img src="Images/Flat 119.jpeg" alt="Flat 119" loading="lazy">
+        <div class="card-img has-slides">
+          <img src="Images/Flat 119.jpeg" alt="Flat 119" loading="lazy" class="slide active">
+          <img src="Images/Flat 119 2.jpeg" alt="Flat 119" loading="lazy" class="slide">
+          <div class="slide-dots">
+            <button class="slide-dot active" aria-label="Imagen 1"></button>
+            <button class="slide-dot" aria-label="Imagen 2"></button>
+          </div>
           <div class="card-badges">
             <span class="badge badge-estado-venta">En venta</span>
             <span class="badge badge-tipo">Residencial</span>
@@ -709,8 +767,15 @@
         data-estado="construccion"
         data-tipo="institucional"
         data-ciudad="bogota">
-        <div class="card-img">
-          <img src="Images/FUCS.jpeg" alt="FUCS" loading="lazy">
+        <div class="card-img has-slides">
+          <img src="Images/FUCS.jpeg" alt="FUCS" loading="lazy" class="slide active">
+          <img src="Images/FUCS 2.jpeg" alt="FUCS" loading="lazy" class="slide">
+          <img src="Images/FUCS 3.jpeg" alt="FUCS" loading="lazy" class="slide">
+          <div class="slide-dots">
+            <button class="slide-dot active" aria-label="Imagen 1"></button>
+            <button class="slide-dot" aria-label="Imagen 2"></button>
+            <button class="slide-dot" aria-label="Imagen 3"></button>
+          </div>
           <div class="card-badges">
             <span class="badge badge-estado-venta">En venta</span>
             <span class="badge badge-estado-construccion">En construcción</span>
@@ -748,8 +813,13 @@
         data-estado="vendido"
         data-tipo="residencial"
         data-ciudad="bogota">
-        <div class="card-img">
-          <img src="Images/San Nicolas Plaza.jpeg" alt="San Nicolás Plaza" loading="lazy">
+        <div class="card-img has-slides">
+          <img src="Images/San Nicolas Plaza.jpeg" alt="San Nicolás Plaza" loading="lazy" class="slide active">
+          <img src="Images/San Nicolas Plaza 2.jpeg" alt="San Nicolás Plaza" loading="lazy" class="slide">
+          <div class="slide-dots">
+            <button class="slide-dot active" aria-label="Imagen 1"></button>
+            <button class="slide-dot" aria-label="Imagen 2"></button>
+          </div>
           <div class="card-badges">
             <span class="badge badge-estado-vendido">Vendido</span>
             <span class="badge badge-tipo">Residencial</span>
@@ -786,8 +856,13 @@
         data-estado="operacion"
         data-tipo="turistico"
         data-ciudad="bogota">
-        <div class="card-img">
-          <img src="Images/Arena Suites.jpeg" alt="Arena Suites" loading="lazy">
+        <div class="card-img has-slides">
+          <img src="Images/Arena Suites.jpeg" alt="Arena Suites" loading="lazy" class="slide active">
+          <img src="Images/Arena Suites 2.jpeg" alt="Arena Suites" loading="lazy" class="slide">
+          <div class="slide-dots">
+            <button class="slide-dot active" aria-label="Imagen 1"></button>
+            <button class="slide-dot" aria-label="Imagen 2"></button>
+          </div>
           <div class="card-badges">
             <span class="badge badge-estado-operacion">En operación</span>
             <span class="badge badge-tipo">Turístico</span>
@@ -824,8 +899,13 @@
         data-estado="vendido"
         data-tipo="residencial"
         data-ciudad="bogota">
-        <div class="card-img">
-          <img src="Images/Calle 92.jpeg" alt="Calle 92" loading="lazy">
+        <div class="card-img has-slides">
+          <img src="Images/Calle 92.jpeg" alt="Calle 92" loading="lazy" class="slide active">
+          <img src="Images/Calle 92 2.jpeg" alt="Calle 92" loading="lazy" class="slide">
+          <div class="slide-dots">
+            <button class="slide-dot active" aria-label="Imagen 1"></button>
+            <button class="slide-dot" aria-label="Imagen 2"></button>
+          </div>
           <div class="card-badges">
             <span class="badge badge-estado-vendido">Vendido</span>
             <span class="badge badge-tipo">Residencial</span>
@@ -928,6 +1008,194 @@
         </div>
       </article>
 
+      <!-- Interventoría Estación Calle 116 -->
+      <article class="project-card" data-reveal
+        data-estado="vendido"
+        data-tipo="institucional"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Interventoria estacion calle 116.jpeg" alt="Interventoría Estación Calle 116" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-vendido">Finalizado</span>
+            <span class="badge badge-tipo">Institucional</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Interventoría Estación Calle 116</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+          </div>
+          <p class="card-desc">Gestión de interventoría técnica y administrativa para el desarrollo de infraestructura en la Estación Calle 116. Supervisión especializada garantizando calidad, norma y plazo.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Interv.</span>
+              <span class="card-stat-lbl">Tipo</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Minuto de Dios · Cobertura RCN -->
+      <article class="project-card" data-reveal style="--rd:80"
+        data-estado="operacion"
+        data-tipo="vip"
+        data-ciudad="bogota">
+        <div class="card-img card-video">
+          <video src="Images/Video minuto de dios rcn.mp4" preload="metadata" controls playsinline></video>
+          <div class="card-badges">
+            <span class="badge badge-estado-operacion">En operación</span>
+            <span class="badge badge-tipo">VIP / Social</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Minuto de Dios · RCN</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+          </div>
+          <p class="card-desc">Cobertura del canal RCN sobre el proyecto de vivienda social Minuto de Dios. Un testimonio en medios del impacto y calidad del trabajo realizado por Sicnia.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Media</span>
+              <span class="card-stat-lbl">Cobertura</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Proyecto sin nombre (1) -->
+      <article class="project-card" data-reveal style="--rd:160"
+        data-estado="venta"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Proyecto1.jpeg" alt="Proyecto" loading="lazy">
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Nombre por confirmar</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+          </div>
+          <p class="card-desc">Información del proyecto próximamente. Contáctanos para más detalles.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Próx.</span>
+              <span class="card-stat-lbl">Info</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Proyecto sin nombre (2) -->
+      <article class="project-card" data-reveal
+        data-estado="venta"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Proyecto2.jpeg" alt="Proyecto" loading="lazy">
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Nombre por confirmar</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+          </div>
+          <p class="card-desc">Información del proyecto próximamente. Contáctanos para más detalles.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Próx.</span>
+              <span class="card-stat-lbl">Info</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Proyecto sin nombre (3) -->
+      <article class="project-card" data-reveal style="--rd:80"
+        data-estado="venta"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Proyecto3.jpeg" alt="Proyecto" loading="lazy">
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Nombre por confirmar</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+          </div>
+          <p class="card-desc">Información del proyecto próximamente. Contáctanos para más detalles.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Próx.</span>
+              <span class="card-stat-lbl">Info</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Proyecto sin nombre (4) -->
+      <article class="project-card" data-reveal style="--rd:160"
+        data-estado="venta"
+        data-tipo="residencial"
+        data-ciudad="bogota">
+        <div class="card-img">
+          <img src="Images/Proyecto4.jpeg" alt="Proyecto" loading="lazy">
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Nombre por confirmar</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+          </div>
+          <p class="card-desc">Información del proyecto próximamente. Contáctanos para más detalles.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Próx.</span>
+              <span class="card-stat-lbl">Info</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
       <!-- Empty state -->
       <div class="empty-state" id="empty-state">
         <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
@@ -1018,6 +1286,40 @@
     const empty = document.getElementById('empty-state');
     empty.classList.toggle('visible', visible === 0);
   }
+</script>
+
+<script>
+  document.querySelectorAll('.card-img.has-slides').forEach(cardImg => {
+    const slides = cardImg.querySelectorAll('.slide');
+    const dots = cardImg.querySelectorAll('.slide-dot');
+    if (slides.length < 2) return;
+    let current = 0;
+    let timer;
+
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    function start() { timer = setInterval(() => goTo(current + 1), 4000); }
+    function stop() { clearInterval(timer); }
+
+    dots.forEach((dot, i) => dot.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      stop(); goTo(i); start();
+    }));
+
+    const card = cardImg.closest('.project-card');
+    if (card) {
+      card.addEventListener('mouseenter', stop);
+      card.addEventListener('mouseleave', start);
+    }
+    start();
+  });
 </script>
 
 <script>

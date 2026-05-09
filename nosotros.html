@@ -515,11 +515,16 @@
   }
 
   /* CV Juan Diego */
+  .cv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
   .cv-item {
-    padding: 14px 0;
+    padding: 14px 12px 14px 0;
     border-bottom: 1px solid var(--ink-100);
   }
-  .cv-item:first-child { border-top: 1px solid var(--ink-100); }
+  .cv-grid .cv-item:nth-child(-n+2) { border-top: 1px solid var(--ink-100); }
   .cv-title {
     font-size: 15px;
     font-weight: 500;
@@ -602,7 +607,7 @@
         <p style="font-size: 16px; line-height: 1.75; color: var(--ink-700); margin: 0; text-wrap: pretty;">Ingeniero civil con cuatro décadas de experiencia en proyectos inmobiliarios, de ingeniería y construcción. Su valor está en el conocimiento acumulado para decirle a cada cliente exactamente qué hacer y qué no hacer.</p>
       </div>
       <div>
-        <div style="display: flex; flex-direction: column; gap: 0;">
+        <div class="cv-grid">
 
           <div class="cv-item" data-reveal style="--rd:40">
             <div class="cv-title">Ingeniero Civil</div>

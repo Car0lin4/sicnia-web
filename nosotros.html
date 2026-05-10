@@ -52,7 +52,7 @@
   .page {
     position: relative;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: clip;
   }
   .page::before {
     content: "";
@@ -91,6 +91,15 @@
   }
 
   /* ---------- Navbar ---------- */
+  .nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--ink-100);
+  }
   .nav {
     position: relative;
     z-index: 10;
@@ -480,7 +489,8 @@
   /* ---------- Responsive ---------- */
   @media (max-width: 960px) {
     .quienes-grid { grid-template-columns: 1fr; gap: 48px; }
-.compromisos-grid { grid-template-columns: repeat(2, 1fr); }
+    .juan-grid { grid-template-columns: 1fr; gap: 40px; }
+    .compromisos-grid { grid-template-columns: repeat(2, 1fr); }
     .cta-inner { flex-direction: column; align-items: flex-start; gap: 24px; }
     .nav-links a:not(.nav-cta) { display: none; }
     .foot-grid { grid-template-columns: 1fr 1fr; }
@@ -488,12 +498,10 @@
     .foot-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
   }
   @media (max-width: 640px) {
-    .wrap { padding: 0 18px; }
     .section { padding-top: 64px; padding-bottom: 64px; }
     .compromisos-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 480px) {
-    .wrap { padding: 0 14px; }
     .foot-grid { grid-template-columns: 1fr; }
   }
 
@@ -512,6 +520,14 @@
   }
   @media (prefers-reduced-motion: reduce) {
     [data-reveal] { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* Juan Diego section grid */
+  .juan-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
   }
 
   /* CV Juan Diego */
@@ -544,6 +560,7 @@
 <div class="page">
 
   <!-- Navbar -->
+  <div class="nav-wrapper">
   <nav class="nav wrap">
     <div class="brand">
       <a href="index.html"><img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo"></a>
@@ -558,6 +575,7 @@
       </a>
     </div>
   </nav>
+  </div>
 
   <!-- QUIÉNES SOMOS -->
   <section class="section wrap">
@@ -600,7 +618,7 @@
 
   <!-- JUAN DIEGO CV -->
   <section class="section wrap" style="border-top: 1px solid var(--ink-100);">
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;" data-reveal>
+    <div class="juan-grid" data-reveal>
       <div>
         <div class="section-kicker" style="margin-bottom: 14px;">Quién lidera Sicnia</div>
         <h2 style="font-size: clamp(26px, 3vw, 38px); font-weight: 500; letter-spacing: -0.026em; line-height: 1.08; color: var(--ink-950); margin: 0 0 20px; text-wrap: balance;">Juan Diego —<br><em style="font-family: var(--fs-serif); font-style: italic; font-weight: 400; color: var(--blue);">más de 40 años</em> construyendo criterio.</h2>

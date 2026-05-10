@@ -52,7 +52,7 @@
   .page {
     position: relative;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: clip;
   }
   .page::before {
     content: "";
@@ -818,11 +818,8 @@
     .trust { padding-top: 48px; }
       .nav-links a:not(.nav-cta) { display: none; }
     .menu-btn { display: flex; }
-    .nav-cta { display: none; }
-    .nav { padding-top: 20px; padding-bottom: 20px; }
-  }
+    .nav-cta { display: none; }  }
   @media (max-width: 640px) {
-    .wrap { padding: 0 18px; }
     .trust-row { grid-template-columns: repeat(3, 1fr); }
     .trust { padding-top: 48px; }
     .stat-strip { grid-template-columns: 1fr 1fr; }
@@ -832,7 +829,6 @@
     .subhead { font-size: 15.5px; }
   }
   @media (max-width: 480px) {
-    .wrap { padding: 0 14px; }
     .servicios { grid-template-columns: 1fr; }
   }
 

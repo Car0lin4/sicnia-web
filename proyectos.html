@@ -52,7 +52,7 @@
   .page {
     position: relative;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: clip;
   }
   .page::before {
     content: "";
@@ -91,6 +91,15 @@
   }
 
   /* ---------- Navbar ---------- */
+  .nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--ink-100);
+  }
   .nav {
     position: relative;
     z-index: 10;
@@ -179,93 +188,6 @@
     line-height: 1.6;
   }
 
-  /* ---------- Filters ---------- */
-  .filters-bar {
-    position: sticky;
-    top: 0;
-    z-index: 9;
-    background: rgba(255,255,255,0.88);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--ink-100);
-    padding: 14px 0;
-    margin-bottom: 48px;
-  }
-  .filters-inner {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    flex-wrap: wrap;
-  }
-  .filter-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .filter-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--ink-500);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-  }
-  .filter-chips {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 12px;
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--ink-500);
-    background: white;
-    border: 1px solid var(--ink-200);
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all .15s ease;
-    line-height: 1;
-  }
-  .chip:hover {
-    border-color: var(--ink-300);
-    color: var(--ink-700);
-  }
-  .chip.active {
-    background: white;
-    color: var(--blue);
-    border-color: var(--blue);
-    font-weight: 500;
-  }
-  .chip .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-    opacity: 0.7;
-  }
-
-  .results-count {
-    margin-left: auto;
-    font-size: 12.5px;
-    color: var(--ink-500);
-    white-space: nowrap;
-    font-family: var(--fs-mono);
-  }
-  .results-count span {
-    color: var(--ink-900);
-    font-weight: 500;
-  }
-
-  /* ---------- Divider between filter groups ---------- */
-  .filter-divider {
-    width: 1px;
-    height: 20px;
-    background: var(--ink-200);
-    flex-shrink: 0;
-  }
-
   /* ---------- Projects grid ---------- */
   .projects-section {
     padding-bottom: 96px;
@@ -291,10 +213,6 @@
     border-color: color-mix(in oklab, var(--blue) 18%, white);
     box-shadow: 0 12px 32px -8px rgba(15,23,42,.1);
   }
-  .project-card.hidden {
-    display: none;
-  }
-
   .card-img {
     aspect-ratio: 3 / 2;
     overflow: hidden;
@@ -464,30 +382,6 @@
   }
   .card-link:hover { gap: 8px; }
 
-  /* ---------- Empty state ---------- */
-  .empty-state {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 32px;
-    text-align: center;
-    gap: 12px;
-    grid-column: 1 / -1;
-  }
-  .empty-state.visible { display: flex; }
-  .empty-state h3 {
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--ink-700);
-    margin: 0;
-  }
-  .empty-state p {
-    font-size: 14px;
-    color: var(--ink-400);
-    margin: 0;
-  }
-
   /* ---------- Footer ---------- */
   footer {
     position: relative;
@@ -540,12 +434,7 @@
     .projects-grid { grid-template-columns: repeat(2, 1fr); }
   }
   @media (max-width: 768px) {
-    .wrap { padding: 0 20px; }
     .projects-grid { grid-template-columns: 1fr; }
-    .filters-inner { gap: 16px; }
-    .filter-group { flex-direction: column; align-items: flex-start; gap: 6px; }
-    .filter-divider { display: none; }
-    .results-count { margin-left: 0; width: 100%; }
     .nav-links a:not(.nav-cta) { display: none; }
     .page-header { padding-top: 40px; padding-bottom: 36px; }
     .foot-grid { grid-template-columns: 1fr 1fr; }
@@ -579,6 +468,7 @@
 <div class="page">
 
   <!-- NAV -->
+  <div class="nav-wrapper">
   <nav class="nav wrap">
     <div class="brand">
       <a href="index.html"><img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo"></a>
@@ -593,6 +483,7 @@
       </a>
     </div>
   </nav>
+  </div>
 
   <!-- PAGE HEADER -->
   <div class="page-header wrap" data-reveal>
@@ -600,49 +491,12 @@
     <p>Desde vivienda de interés social hasta desarrollos residenciales de alto estándar e institucionales , con tecnología e inteligencia artificial en cada etapa.</p>
   </div>
 
-  <!-- FILTERS BAR -->
-  <div class="filters-bar">
-    <div class="wrap filters-inner">
-
-      <div class="filter-group">
-        <span class="filter-label">Estado</span>
-        <div class="filter-chips" id="chips-estado">
-          <button class="chip active" data-filter="estado" data-value="all">Todos</button>
-          <button class="chip" data-filter="estado" data-value="venta">En venta</button>
-          <button class="chip" data-filter="estado" data-value="construccion">En construcción</button>
-          <button class="chip" data-filter="estado" data-value="operacion">En operación</button>
-          <button class="chip" data-filter="estado" data-value="vendido">Vendido</button>
-          <button class="chip" data-filter="estado" data-value="desarrollo">En desarrollo</button>
-        </div>
-      </div>
-
-      <div class="filter-divider"></div>
-
-      <div class="filter-group">
-        <span class="filter-label">Tipo</span>
-        <div class="filter-chips" id="chips-tipo">
-          <button class="chip active" data-filter="tipo" data-value="all">Todos</button>
-          <button class="chip" data-filter="tipo" data-value="residencial">Residencial</button>
-          <button class="chip" data-filter="tipo" data-value="institucional">Institucional</button>
-          <button class="chip" data-filter="tipo" data-value="turistico">Turístico</button>
-          <button class="chip" data-filter="tipo" data-value="vip">VIP / Social</button>
-        </div>
-      </div>
-
-      <span class="results-count"><span id="count">15</span> proyectos</span>
-
-    </div>
-  </div>
-
   <!-- PROJECTS GRID -->
   <section class="projects-section wrap">
     <div class="projects-grid" id="projects-grid">
 
       <!-- Bahía 57 -->
-      <article class="project-card" data-reveal
-        data-estado="vendido"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal>
         <div class="card-img">
           <img src="Images/Bahía 57.jpeg" alt="Bahía 57" loading="lazy">
           <div class="card-badges">
@@ -677,10 +531,7 @@
       </article>
 
       <!-- Prado 134 -->
-      <article class="project-card" data-reveal style="--rd:80"
-        data-estado="vendido"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal style="--rd:80">
         <div class="card-img has-slides">
           <img src="Images/Prado 134.jpeg" alt="Prado 134" loading="lazy" class="slide active">
           <img src="Images/Prado 134 2.jpeg" alt="Prado 134" loading="lazy" class="slide">
@@ -720,10 +571,7 @@
       </article>
 
       <!-- Flat 119 -->
-      <article class="project-card" data-reveal style="--rd:160"
-        data-estado="venta"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal style="--rd:160">
         <div class="card-img has-slides">
           <img src="Images/Flat 119.jpeg" alt="Flat 119" loading="lazy" class="slide active">
           <img src="Images/Flat 119 2.jpeg" alt="Flat 119" loading="lazy" class="slide">
@@ -763,10 +611,7 @@
       </article>
 
       <!-- FUCS -->
-      <article class="project-card" data-reveal
-        data-estado="construccion"
-        data-tipo="institucional"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal>
         <div class="card-img has-slides">
           <img src="Images/FUCS.jpeg" alt="FUCS" loading="lazy" class="slide active">
           <img src="Images/FUCS 2.jpeg" alt="FUCS" loading="lazy" class="slide">
@@ -809,10 +654,7 @@
       </article>
 
       <!-- San Nicolás Plaza -->
-      <article class="project-card" data-reveal style="--rd:80"
-        data-estado="vendido"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal style="--rd:80">
         <div class="card-img has-slides">
           <img src="Images/San Nicolas Plaza.jpeg" alt="San Nicolás Plaza" loading="lazy" class="slide active">
           <img src="Images/San Nicolas Plaza 2.jpeg" alt="San Nicolás Plaza" loading="lazy" class="slide">
@@ -852,10 +694,7 @@
       </article>
 
       <!-- Arena Suites -->
-      <article class="project-card" data-reveal style="--rd:160"
-        data-estado="operacion"
-        data-tipo="turistico"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal style="--rd:160">
         <div class="card-img has-slides">
           <img src="Images/Arena Suites.jpeg" alt="Arena Suites" loading="lazy" class="slide active">
           <img src="Images/Arena Suites 2.jpeg" alt="Arena Suites" loading="lazy" class="slide">
@@ -895,10 +734,7 @@
       </article>
 
       <!-- Calle 92 -->
-      <article class="project-card" data-reveal
-        data-estado="vendido"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal>
         <div class="card-img has-slides">
           <img src="Images/Calle 92.jpeg" alt="Calle 92" loading="lazy" class="slide active">
           <img src="Images/Calle 92 2.jpeg" alt="Calle 92" loading="lazy" class="slide" style="object-position: top;">
@@ -938,10 +774,7 @@
       </article>
 
       <!-- ECO Ciudadela Betania -->
-      <article class="project-card" data-reveal style="--rd:80"
-        data-estado="desarrollo"
-        data-tipo="vip"
-        data-ciudad="pensilvania">
+      <article class="project-card" data-reveal style="--rd:80">
         <div class="card-img">
           <img src="Images/ECO Ciudadela Betania.png" alt="ECO Ciudadela Betania" loading="lazy">
           <div class="card-badges">
@@ -976,10 +809,7 @@
       </article>
 
       <!-- Proyecto Bo67 -->
-      <article class="project-card" data-reveal style="--rd:160"
-        data-estado="venta"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal style="--rd:160">
         <div class="card-img">
           <img src="Images/Proyecto Bo67.jpeg" alt="Proyecto Bo67" loading="lazy">
           <div class="card-badges">
@@ -1009,10 +839,7 @@
       </article>
 
       <!-- Interventoría Estación Calle 116 -->
-      <article class="project-card" data-reveal
-        data-estado="vendido"
-        data-tipo="institucional"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal>
         <div class="card-img">
           <img src="Images/Interventoria estacion calle 116.jpeg" alt="Interventoría Estación Calle 116" loading="lazy">
           <div class="card-badges">
@@ -1043,10 +870,7 @@
       </article>
 
       <!-- Minuto de Dios · Cobertura RCN -->
-      <article class="project-card" data-reveal style="--rd:80"
-        data-estado="operacion"
-        data-tipo="vip"
-        data-ciudad="bogota">
+      <article class="project-card" data-reveal style="--rd:80">
         <div class="card-img card-video">
           <video src="Images/Video minuto de dios rcn.mp4" preload="metadata" controls playsinline></video>
           <div class="card-badges">
@@ -1076,27 +900,29 @@
         </div>
       </article>
 
-      <!-- Proyecto sin nombre (1) -->
-      <article class="project-card" data-reveal style="--rd:160"
-        data-estado="venta"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <!-- CSJ: Sistema Liviano -->
+      <article class="project-card" data-reveal style="--rd:160">
         <div class="card-img">
-          <img src="Images/Proyecto1.jpeg" alt="Proyecto" loading="lazy">
+          <img src="Images/Proyecto1.jpeg" alt="CSJ Sistema Liviano" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-vendido">Finalizado</span>
+            <span class="badge badge-tipo">Institucional</span>
+          </div>
         </div>
         <div class="card-body">
-          <h2 class="card-title">Nombre por confirmar</h2>
+          <h2 class="card-title">CSJ: Sistema Liviano</h2>
           <div class="card-meta">
             <span class="meta-item">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
               Bogotá
             </span>
+            <span class="meta-item">Institucional</span>
           </div>
-          <p class="card-desc">Información del proyecto próximamente. Contáctanos para más detalles.</p>
+          <p class="card-desc">Especificación e instalación de sistemas constructivos livianos acústicos-térmicos para el Consejo Superior de la Judicatura. Soluciones de alta eficiencia normativa y confort.</p>
           <div class="card-footer">
             <div class="card-stat">
-              <span class="card-stat-val">Próx.</span>
-              <span class="card-stat-lbl">Info</span>
+              <span class="card-stat-val">Inst.</span>
+              <span class="card-stat-lbl">Tipo</span>
             </div>
             <a href="index.html#contacto" class="card-link">
               Más información
@@ -1106,27 +932,29 @@
         </div>
       </article>
 
-      <!-- Proyecto sin nombre (2) -->
-      <article class="project-card" data-reveal
-        data-estado="venta"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <!-- Vivienda Turística -->
+      <article class="project-card" data-reveal>
         <div class="card-img">
-          <img src="Images/Proyecto2.jpeg" alt="Proyecto" loading="lazy">
+          <img src="Images/Proyecto2.jpeg" alt="Vivienda Turística" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-operacion">En operación</span>
+            <span class="badge badge-tipo">Turístico</span>
+          </div>
         </div>
         <div class="card-body">
-          <h2 class="card-title">Nombre por confirmar</h2>
+          <h2 class="card-title">Vivienda Turística</h2>
           <div class="card-meta">
             <span class="meta-item">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
               Bogotá
             </span>
+            <span class="meta-item">Turístico</span>
           </div>
-          <p class="card-desc">Información del proyecto próximamente. Contáctanos para más detalles.</p>
+          <p class="card-desc">Proyecto de alojamiento turístico en plena operación. Diseño, licenciamiento y estrategia de renta corta integrada, con zonas sociales y amenidades de alto estándar.</p>
           <div class="card-footer">
             <div class="card-stat">
-              <span class="card-stat-val">Próx.</span>
-              <span class="card-stat-lbl">Info</span>
+              <span class="card-stat-val">Tur.</span>
+              <span class="card-stat-lbl">Tipo</span>
             </div>
             <a href="index.html#contacto" class="card-link">
               Más información
@@ -1136,27 +964,29 @@
         </div>
       </article>
 
-      <!-- Proyecto sin nombre (3) -->
-      <article class="project-card" data-reveal style="--rd:80"
-        data-estado="venta"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <!-- Policía Metropolitana: Sistema Liviano -->
+      <article class="project-card" data-reveal style="--rd:80">
         <div class="card-img">
-          <img src="Images/Proyecto3.jpeg" alt="Proyecto" loading="lazy">
+          <img src="Images/Proyecto3.jpeg" alt="Policía Metropolitana Sistema Liviano" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-vendido">Finalizado</span>
+            <span class="badge badge-tipo">Institucional</span>
+          </div>
         </div>
         <div class="card-body">
-          <h2 class="card-title">Nombre por confirmar</h2>
+          <h2 class="card-title">Policía Metropolitana: Sistema Liviano</h2>
           <div class="card-meta">
             <span class="meta-item">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
               Bogotá
             </span>
+            <span class="meta-item">Institucional</span>
           </div>
-          <p class="card-desc">Información del proyecto próximamente. Contáctanos para más detalles.</p>
+          <p class="card-desc">Instalación de sistemas constructivos livianos para la Policía Metropolitana de Bogotá. Soluciones acústicas y térmicas que cumplen con exigentes especificaciones de infraestructura pública.</p>
           <div class="card-footer">
             <div class="card-stat">
-              <span class="card-stat-val">Próx.</span>
-              <span class="card-stat-lbl">Info</span>
+              <span class="card-stat-val">Inst.</span>
+              <span class="card-stat-lbl">Tipo</span>
             </div>
             <a href="index.html#contacto" class="card-link">
               Más información
@@ -1166,27 +996,29 @@
         </div>
       </article>
 
-      <!-- Proyecto sin nombre (4) -->
-      <article class="project-card" data-reveal style="--rd:160"
-        data-estado="venta"
-        data-tipo="residencial"
-        data-ciudad="bogota">
+      <!-- FUCS: Aislamiento acústico -->
+      <article class="project-card" data-reveal style="--rd:160">
         <div class="card-img">
-          <img src="Images/Proyecto4.jpeg" alt="Proyecto" loading="lazy">
+          <img src="Images/Proyecto4.jpeg" alt="FUCS Aislamiento acústico" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-estado-vendido">Finalizado</span>
+            <span class="badge badge-tipo">Institucional</span>
+          </div>
         </div>
         <div class="card-body">
-          <h2 class="card-title">Nombre por confirmar</h2>
+          <h2 class="card-title">FUCS: Aislamiento acústico</h2>
           <div class="card-meta">
             <span class="meta-item">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
               Bogotá
             </span>
+            <span class="meta-item">Institucional</span>
           </div>
-          <p class="card-desc">Información del proyecto próximamente. Contáctanos para más detalles.</p>
+          <p class="card-desc">Solución integral de aislamiento acústico para la Fundación Universitaria de Ciencias de la Salud. Sistemas especializados que garantizan ambientes de estudio y trabajo sin interferencia de ruido.</p>
           <div class="card-footer">
             <div class="card-stat">
-              <span class="card-stat-val">Próx.</span>
-              <span class="card-stat-lbl">Info</span>
+              <span class="card-stat-val">Acúst.</span>
+              <span class="card-stat-lbl">Especialidad</span>
             </div>
             <a href="index.html#contacto" class="card-link">
               Más información
@@ -1195,16 +1027,6 @@
           </div>
         </div>
       </article>
-
-      <!-- Empty state -->
-      <div class="empty-state" id="empty-state">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-          <circle cx="20" cy="20" r="18" stroke="#cbd5e1" stroke-width="1.5"/>
-          <path d="M13 20h14M20 13v14" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <h3>Sin resultados para este filtro</h3>
-        <p>Prueba con otra combinación de filtros</p>
-      </div>
 
     </div>
   </section>
@@ -1247,46 +1069,6 @@
   </footer>
 
 </div>
-
-<script>
-  const activeFilters = { estado: 'all', tipo: 'all' };
-
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const filter = chip.dataset.filter;
-      const value = chip.dataset.value;
-
-      // update active chip in group
-      document.querySelectorAll(`.chip[data-filter="${filter}"]`).forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-
-      activeFilters[filter] = value;
-      applyFilters();
-    });
-  });
-
-  function applyFilters() {
-    const cards = document.querySelectorAll('.project-card');
-    let visible = 0;
-
-    cards.forEach(card => {
-      const matchEstado = activeFilters.estado === 'all' || card.dataset.estado === activeFilters.estado;
-      const matchTipo   = activeFilters.tipo   === 'all' || card.dataset.tipo   === activeFilters.tipo;
-
-      if (matchEstado && matchTipo) {
-        card.classList.remove('hidden');
-        visible++;
-      } else {
-        card.classList.add('hidden');
-      }
-    });
-
-    document.getElementById('count').textContent = visible;
-
-    const empty = document.getElementById('empty-state');
-    empty.classList.toggle('visible', visible === 0);
-  }
-</script>
 
 <script>
   document.querySelectorAll('.card-img.has-slides').forEach(cardImg => {

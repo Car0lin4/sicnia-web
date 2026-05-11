@@ -450,10 +450,134 @@
   .foot-legal a { color: var(--ink-400); transition: color .15s; }
   .foot-legal a:hover { color: var(--ink-700); }
 
+  /* ---------- Mobile hamburger ---------- */
+  .menu-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    padding: 0;
+    color: var(--ink-900);
+    transition: border-color .15s ease, background .15s ease;
+    flex-shrink: 0;
+  }
+  .menu-btn:hover { border-color: var(--ink-300); background: var(--ink-50); }
+  .menu-btn .bar {
+    display: block;
+    width: 16px; height: 1.5px;
+    background: currentColor;
+    border-radius: 2px;
+    transition: transform .22s ease, opacity .22s ease;
+    transform-origin: center;
+  }
+  .menu-btn .bars { display: flex; flex-direction: column; gap: 4.5px; }
+  .menu-btn.open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .menu-btn.open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .menu-btn.open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* ---------- Mobile drawer ---------- */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 99;
+  }
+  .mobile-menu.open { display: block; }
+  .mobile-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 15, 26, 0.35);
+    backdrop-filter: blur(2px);
+    animation: fadeInBackdrop .2s ease;
+  }
+  @keyframes fadeInBackdrop { from { opacity: 0; } to { opacity: 1; } }
+  .mobile-drawer {
+    position: absolute;
+    top: 0; right: 0;
+    width: min(300px, 88vw);
+    height: 100%;
+    background: white;
+    border-left: 1px solid var(--ink-100);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 0 32px;
+    animation: slideInDrawer .22s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: -12px 0 40px -12px rgba(10,15,26,.15);
+  }
+  @keyframes slideInDrawer { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  .mobile-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--ink-100);
+    margin-bottom: 12px;
+  }
+  .mobile-drawer-close {
+    width: 36px; height: 36px;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; padding: 0;
+    color: var(--ink-700);
+    transition: border-color .15s, background .15s;
+  }
+  .mobile-drawer-close:hover { border-color: var(--ink-300); background: var(--ink-50); }
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 4px 0;
+  }
+  .mobile-nav-links a {
+    display: flex;
+    align-items: center;
+    padding: 13px 20px;
+    font-size: 15px;
+    color: var(--ink-700);
+    font-weight: 400;
+    border-bottom: 1px solid var(--ink-50);
+    transition: color .15s, background .15s;
+  }
+  .mobile-nav-links a:hover { color: var(--ink-900); background: var(--ink-50); }
+  .mobile-drawer-cta {
+    padding: 16px 20px 0;
+    border-top: 1px solid var(--ink-100);
+    margin-top: auto;
+  }
+  .mobile-drawer-cta .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 20px;
+    font-size: 14.5px;
+    font-weight: 500;
+    border-radius: 9px;
+    border: 1px solid var(--ink-950);
+    background: var(--ink-950);
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 6px 18px -8px rgba(15,23,42,.6);
+    transition: transform .15s ease, box-shadow .2s ease;
+    white-space: nowrap;
+  }
+  .mobile-drawer-cta .btn:hover { transform: translateY(-1px); box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset, 0 10px 22px -8px rgba(15,23,42,.55); }
+  .mobile-drawer-cta .btn .arrow { transition: transform .2s ease; }
+  .mobile-drawer-cta .btn:hover .arrow { transform: translateX(2px); }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 960px) {
     .certs-grid { grid-template-columns: repeat(2, 1fr); }
     .nav-links a:not(.nav-cta) { display: none; }
+    .menu-btn { display: flex; }
+    .nav-cta { display: none; }
     .foot-grid { grid-template-columns: 1fr 1fr; }
     .foot-brand { grid-column: 1 / -1; }
   }
@@ -487,7 +611,39 @@
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6m0 0L5.5 2.5M8 5L5.5 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
+    <button class="menu-btn" id="menu-btn" aria-label="Abrir menú" aria-expanded="false">
+      <span class="bars">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </span>
+    </button>
   </nav>
+  </div>
+
+  <!-- Mobile menu drawer -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-backdrop" id="mobile-backdrop"></div>
+    <div class="mobile-drawer">
+      <div class="mobile-drawer-header">
+        <img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo">
+        <button class="mobile-drawer-close" id="menu-close" aria-label="Cerrar menú">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="mobile-nav-links">
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="proyectos.html">Proyectos</a>
+        <a href="certificaciones.html">Certificaciones</a>
+      </div>
+      <div class="mobile-drawer-cta">
+        <a class="btn" href="index.html#contacto">
+          <span>Contáctanos</span>
+          <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L8 4m3 3L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
   </div>
 
   <!-- Hero -->
@@ -825,5 +981,34 @@
   </footer>
 
 </div>
+  <script>
+    (function() {
+      const btn = document.getElementById('menu-btn');
+      const menu = document.getElementById('mobile-menu');
+      const backdrop = document.getElementById('mobile-backdrop');
+      const closeBtn = document.getElementById('menu-close');
+      const links = menu.querySelectorAll('a');
+      function openMenu() {
+        menu.classList.add('open');
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMenu() {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      btn.addEventListener('click', openMenu);
+      closeBtn.addEventListener('click', closeMenu);
+      backdrop.addEventListener('click', closeMenu);
+      links.forEach(function(a) { a.addEventListener('click', closeMenu); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMenu(); });
+    })();
+  </script>
+
 </body>
 </html>

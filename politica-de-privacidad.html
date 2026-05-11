@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Política de Privacidad — Sicnia</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #2563eb;
+    --blue-50: color-mix(in oklab, var(--blue) 6%, white);
+    --blue-100: color-mix(in oklab, var(--blue) 14%, white);
+    --blue-200: color-mix(in oklab, var(--blue) 28%, white);
+    --blue-600: var(--blue);
+    --blue-700: color-mix(in oklab, var(--blue) 82%, black);
+    --ink-950: #0a0f1a;
+    --ink-900: #0f172a;
+    --ink-700: #334155;
+    --ink-500: #64748b;
+    --ink-400: #94a3b8;
+    --ink-300: #cbd5e1;
+    --ink-200: #e2e8f0;
+    --ink-100: #f1f5f9;
+    --ink-50:  #f8fafc;
+    --paper: #ffffff;
+    --pattern-opacity: 0.55;
+    --radius: 10px;
+    --fs-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --fs-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --fs-serif: "Instrument Serif", "Times New Roman", serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--fs-sans);
+    font-feature-settings: "ss01", "cv11";
+    color: var(--ink-900);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+
+  .page {
+    position: relative;
+    min-height: 100vh;
+    overflow: clip;
+  }
+  .page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--blue) 10%, white) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--blue) 10%, white) 1px, transparent 1px);
+    background-size: 56px 56px;
+    background-position: -1px -1px;
+    opacity: var(--pattern-opacity);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .page::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--blue) 22%, white) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--blue) 22%, white) 1px, transparent 1px);
+    background-size: 280px 280px;
+    background-position: -1px -1px;
+    opacity: calc(var(--pattern-opacity) * 0.9);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    z-index: 1;
+  }
+
+  /* ---------- Navbar ---------- */
+  .nav-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--ink-100);
+  }
+  .nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+  .brand { display: flex; align-items: center; }
+  .brand-logo { height: 36px; width: auto; display: block; }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a { font-size: 14px; color: var(--ink-700); transition: color .15s ease; }
+  .nav-links a:hover { color: var(--ink-900); }
+  .nav-links a.active { color: var(--ink-900); font-weight: 500; }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13.5px;
+    color: var(--ink-900);
+    padding: 8px 13px;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    background: white;
+    transition: border-color .15s ease;
+  }
+  .nav-cta:hover { border-color: var(--ink-300); }
+
+  /* ---------- Mobile menu ---------- */
+  .menu-btn {
+    display: none;
+    background: none;
+    border: 1px solid var(--ink-200);
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    gap: 5px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .bar { display: block; width: 18px; height: 1.5px; background: var(--ink-700); border-radius: 2px; transition: transform .2s, opacity .2s; }
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 0 16px;
+    border-top: 1px solid var(--ink-100);
+  }
+  .mobile-menu a {
+    font-size: 15px;
+    color: var(--ink-700);
+    padding: 11px 0;
+    border-bottom: 1px solid var(--ink-100);
+    transition: color .15s;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--blue); }
+  .mobile-menu.open { display: flex; }
+
+  /* ---------- Page header ---------- */
+  .page-header {
+    padding-top: 64px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--ink-100);
+  }
+  .section-kicker {
+    font-family: var(--fs-mono);
+    font-size: 11.5px;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+  .page-title {
+    font-size: clamp(32px, 4.5vw, 52px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    color: var(--ink-950);
+    margin: 0 0 16px;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .page-title em {
+    font-family: var(--fs-serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--blue);
+    letter-spacing: -0.02em;
+  }
+  .page-sub {
+    font-size: 16px;
+    color: var(--ink-500);
+    max-width: 56ch;
+    text-wrap: pretty;
+    margin: 0;
+  }
+
+  /* ---------- Content ---------- */
+  .content-section {
+    padding-top: 72px;
+    padding-bottom: 96px;
+  }
+  .content-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .content-toc {
+    position: sticky;
+    top: 88px;
+  }
+  .toc-label {
+    font-family: var(--fs-mono);
+    font-size: 11px;
+    color: var(--ink-400);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .toc-list a {
+    font-size: 13px;
+    color: var(--ink-500);
+    padding: 5px 10px;
+    border-radius: 6px;
+    display: block;
+    transition: color .15s, background .15s;
+    line-height: 1.4;
+  }
+  .toc-list a:hover { color: var(--ink-900); background: var(--ink-50); }
+
+  .policy-body { max-width: 68ch; }
+  .policy-body h2 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.018em;
+    color: var(--ink-950);
+    margin: 56px 0 14px;
+    padding-top: 8px;
+    border-top: 1px solid var(--ink-100);
+    scroll-margin-top: 100px;
+  }
+  .policy-body h2:first-child { margin-top: 0; border-top: none; }
+  .policy-body p {
+    font-size: 15.5px;
+    color: var(--ink-700);
+    line-height: 1.75;
+    margin: 0 0 16px;
+  }
+  .policy-body ul {
+    margin: 0 0 16px;
+    padding-left: 20px;
+  }
+  .policy-body ul li {
+    font-size: 15.5px;
+    color: var(--ink-700);
+    line-height: 1.75;
+    margin-bottom: 6px;
+  }
+  .policy-body a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .policy-body a:hover { color: var(--blue-700); }
+  .update-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: var(--ink-50);
+    border: 1px solid var(--ink-200);
+    border-radius: 999px;
+    font-size: 12.5px;
+    color: var(--ink-500);
+    font-family: var(--fs-mono);
+    margin-bottom: 40px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--ink-100);
+    padding-top: 56px;
+    padding-bottom: 40px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .foot-brand .brand-logo { height: 28px; margin-bottom: 14px; }
+  .foot-brand p { font-size: 13px; color: var(--ink-500); line-height: 1.6; max-width: 220px; }
+  .foot-col-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-400);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+  .foot-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .foot-col a { font-size: 14px; color: var(--ink-500); transition: color .15s; }
+  .foot-col a:hover { color: var(--ink-900); }
+  .foot-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 28px;
+    border-top: 1px solid var(--ink-100);
+    font-size: 13px;
+    color: var(--ink-400);
+  }
+  .foot-legal { display: flex; gap: 20px; }
+  .foot-legal a { color: var(--ink-400); text-decoration: none; transition: color .15s; }
+  .foot-legal a:hover { color: var(--ink-700); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .content-grid { grid-template-columns: 1fr; gap: 40px; }
+    .content-toc { position: static; display: none; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .foot-brand { grid-column: 1 / -1; }
+    .foot-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+  @media (max-width: 600px) {
+    .wrap { padding: 0 20px; }
+    .nav-links { display: none; }
+    .menu-btn { display: flex; }
+    .foot-grid { grid-template-columns: 1fr; }
+    .policy-body h2 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="nav-wrapper">
+  <nav class="nav wrap">
+    <div class="brand">
+      <a href="index.html"><img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo"></a>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="proyectos.html">Proyectos</a>
+      <a href="certificaciones.html">Certificaciones</a>
+      <a class="nav-cta" href="index.html#contacto">Contáctanos
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5h6m0 0L5.5 2.5M8 5L5.5 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <button class="menu-btn" id="menu-btn" aria-label="Abrir menú" aria-expanded="false">
+      <span class="bars">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </span>
+    </button>
+  </nav>
+  <div class="mobile-menu wrap" id="mobile-menu">
+    <a href="index.html">Inicio</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="proyectos.html">Proyectos</a>
+    <a href="certificaciones.html">Certificaciones</a>
+    <a href="index.html#contacto">Contáctanos</a>
+  </div>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header wrap">
+    <div class="section-kicker">Legal</div>
+    <h1 class="page-title">Política de <em>privacidad</em></h1>
+    <p class="page-sub">Cómo recopilamos, usamos y protegemos tu información personal cuando interactúas con Sicnia.</p>
+  </section>
+
+  <!-- CONTENT -->
+  <section class="content-section wrap">
+    <div class="content-grid">
+
+      <!-- TOC (desktop) -->
+      <aside class="content-toc">
+        <div class="toc-label">Contenido</div>
+        <ul class="toc-list">
+          <li><a href="#responsable">Responsable del tratamiento</a></li>
+          <li><a href="#datos">Datos que recopilamos</a></li>
+          <li><a href="#finalidad">Finalidad del tratamiento</a></li>
+          <li><a href="#base-legal">Base legal</a></li>
+          <li><a href="#compartir">Compartir información</a></li>
+          <li><a href="#retencion">Retención de datos</a></li>
+          <li><a href="#derechos">Tus derechos</a></li>
+          <li><a href="#seguridad">Seguridad</a></li>
+          <li><a href="#cambios">Cambios a esta política</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </aside>
+
+      <!-- Body -->
+      <div class="policy-body">
+        <div class="update-chip">Última actualización: mayo 2026</div>
+
+        <h2 id="responsable">Responsable del tratamiento</h2>
+        <p>Sicnia (nombre comercial de Interpanel S.A.) es el responsable del tratamiento de los datos personales recopilados a través de este sitio web y de los formularios de contacto disponibles en él.</p>
+        <ul>
+          <li><strong>Razón social:</strong> Interpanel S.A.</li>
+          <li><strong>Nombre comercial:</strong> Sicnia</li>
+          <li><strong>Domicilio:</strong> Calle 63 #30-10, Bogotá, Colombia</li>
+          <li><strong>Teléfono:</strong> +57 (1) 805 02 32</li>
+        </ul>
+
+        <h2 id="datos">Datos que recopilamos</h2>
+        <p>Cuando completas el formulario de contacto en nuestro sitio, recopilamos únicamente la información que tú mismo nos proporcionas:</p>
+        <ul>
+          <li>Nombre completo</li>
+          <li>Correo electrónico</li>
+          <li>Número de teléfono (opcional)</li>
+          <li>Mensaje o descripción de tu proyecto</li>
+        </ul>
+        <p>No recopilamos datos de forma automática mediante cookies de rastreo, ni utilizamos herramientas de análisis de comportamiento de terceros.</p>
+
+        <h2 id="finalidad">Finalidad del tratamiento</h2>
+        <p>Los datos recopilados a través del formulario de contacto se utilizan exclusivamente para:</p>
+        <ul>
+          <li>Responder a tu consulta o solicitud de información</li>
+          <li>Realizar un primer análisis de viabilidad de tu proyecto</li>
+          <li>Establecer contacto comercial si existe interés mutuo</li>
+        </ul>
+        <p>No utilizamos tus datos para enviar comunicaciones comerciales no solicitadas ni para ninguna otra finalidad distinta a las indicadas.</p>
+
+        <h2 id="base-legal">Base legal</h2>
+        <p>El tratamiento de tus datos personales se fundamenta en tu consentimiento expreso, otorgado al enviar el formulario de contacto y aceptar esta política de privacidad. Este consentimiento es voluntario y puedes retirarlo en cualquier momento.</p>
+        <p>El tratamiento de datos en Colombia se rige por la <strong>Ley 1581 de 2012</strong> y su Decreto reglamentario 1377 de 2013.</p>
+
+        <h2 id="compartir">Compartir información</h2>
+        <p>Sicnia no vende, alquila ni cede tus datos personales a terceros. Únicamente podremos compartir tu información en los siguientes casos:</p>
+        <ul>
+          <li>Cuando sea requerido por autoridad competente en cumplimiento de obligaciones legales</li>
+          <li>Con proveedores de servicios técnicos estrictamente necesarios para el funcionamiento del sitio (por ejemplo, el proveedor de hosting), quienes están obligados contractualmente a tratar los datos de forma confidencial</li>
+        </ul>
+
+        <h2 id="retencion">Retención de datos</h2>
+        <p>Conservamos tus datos únicamente durante el tiempo necesario para atender tu solicitud y, en caso de establecerse una relación comercial, durante la vigencia de dicha relación más el período legal aplicable. Si no se concreta ningún vínculo, tus datos se eliminan en un plazo máximo de 12 meses desde la última comunicación.</p>
+
+        <h2 id="derechos">Tus derechos</h2>
+        <p>De acuerdo con la Ley 1581 de 2012, tienes derecho a:</p>
+        <ul>
+          <li><strong>Conocer</strong> los datos personales que tenemos sobre ti</li>
+          <li><strong>Actualizar o corregir</strong> información inexacta o incompleta</li>
+          <li><strong>Suprimir</strong> tus datos cuando no sean necesarios para la finalidad que motivó su recopilación</li>
+          <li><strong>Revocar</strong> el consentimiento otorgado para el tratamiento</li>
+          <li><strong>Presentar quejas</strong> ante la Superintendencia de Industria y Comercio (SIC)</li>
+        </ul>
+        <p>Para ejercer cualquiera de estos derechos, escríbenos a <a href="mailto:info@sicnia.com">info@sicnia.com</a> indicando tu nombre completo y la solicitud específica. Responderemos en un plazo máximo de 15 días hábiles.</p>
+
+        <h2 id="seguridad">Seguridad</h2>
+        <p>Implementamos medidas técnicas y organizativas razonables para proteger tus datos personales frente a accesos no autorizados, pérdida, alteración o divulgación. Sin embargo, ningún sistema de transmisión de datos por internet es completamente seguro, por lo que no podemos garantizar una seguridad absoluta.</p>
+
+        <h2 id="cambios">Cambios a esta política</h2>
+        <p>Podemos actualizar esta política de privacidad ocasionalmente para reflejar cambios en nuestras prácticas o en la normativa aplicable. La versión vigente siempre estará disponible en esta página con la fecha de última actualización indicada al inicio del documento.</p>
+
+        <h2 id="contacto">Contacto</h2>
+        <p>Si tienes preguntas sobre esta política o sobre el tratamiento de tus datos personales, puedes contactarnos a través de:</p>
+        <ul>
+          <li><strong>Formulario web:</strong> <a href="index.html#contacto">Ir al formulario de contacto</a></li>
+          <li><strong>Teléfono:</strong> +57 (1) 805 02 32</li>
+          <li><strong>Dirección:</strong> Calle 63 #30-10, Bogotá, Colombia</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo">
+        <p>Inmobiliaria · Ingeniería · Inteligencia Artificial.<br>Construimos proyectos que duran décadas.</p>
+      </div>
+
+      <div class="foot-col">
+        <div class="foot-col-title">Navegación</div>
+        <a href="index.html#inicio">Inicio</a>
+        <a href="index.html#introduccion">Qué es Sicnia</a>
+        <a href="index.html#servicios">Servicios</a>
+        <a href="proyectos.html">Proyectos</a>
+      </div>
+
+      <div class="foot-col">
+        <div class="foot-col-title">Empresa</div>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="index.html#aliados">Aliados</a>
+        <a href="certificaciones.html">Certificaciones</a>
+      </div>
+
+      <div class="foot-col">
+        <div class="foot-col-title">Contacto</div>
+        <a href="index.html#contacto">Enviar mensaje</a>
+        <a href="tel:+5718050232">+57 (1) 805 02 32</a>
+        <a href="https://maps.google.com/?q=Calle+63+%2330-10+Bogotá" target="_blank" rel="noopener">Calle 63 #30-10, Bogotá, Colombia</a>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <div>© 2026 Sicnia. Todos los derechos reservados.</div>
+      <div class="foot-legal">
+        <a href="politica-de-privacidad.html">Política de privacidad</a>
+        <a href="#">Términos de uso</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  }
+</script>
+</body>
+</html>

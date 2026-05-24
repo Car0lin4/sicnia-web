@@ -110,7 +110,7 @@
     padding-bottom: 22px;
   }
   .brand { display: flex; align-items: center; }
-  .brand-logo { height: 36px; width: auto; display: block; }
+  .brand-logo { height: 60px; width: auto; display: block; }
 
   .nav-links {
     display: flex;
@@ -299,6 +299,67 @@
     background: rgba(255,255,255,0.82);
     color: var(--ink-700);
   }
+  .badge-operacion,
+  .badge-construccion,
+  .badge-residencial,
+  .badge-turistico,
+  .badge-vip,
+  .badge-sistemas,
+  .badge-interventoria,
+  .badge-industria {
+    background: rgba(226,232,240,0.88);
+    color: #1e293b;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ---------- Filter bar ---------- */
+  .filter-bar {
+    margin-bottom: 40px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--ink-100);
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 14px;
+    font-size: 12.5px;
+    font-weight: 500;
+    border-radius: 999px;
+    border: 1px solid var(--ink-200);
+    background: white;
+    color: var(--ink-600);
+    cursor: pointer;
+    font-family: var(--fs-sans);
+    transition: border-color .15s, background .15s, color .15s, box-shadow .15s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover {
+    border-color: var(--ink-300);
+    background: var(--ink-50);
+    color: var(--ink-900);
+  }
+  .filter-btn.active {
+    background: var(--ink-950);
+    border-color: var(--ink-950);
+    color: white;
+    box-shadow: 0 2px 8px -2px rgba(10,15,26,.25);
+  }
+  .project-card.hidden { display: none; }
+  .no-results {
+    display: none;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 72px 0;
+    color: var(--ink-400);
+    font-size: 15px;
+  }
+  .no-results.show { display: block; }
 
   .card-body {
     padding: 20px 22px 22px;
@@ -558,6 +619,8 @@
     .foot-grid { grid-template-columns: 1fr 1fr; }
     .foot-brand { grid-column: 1 / -1; }
     .foot-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .filter-bar { gap: 12px 0; flex-direction: column; }
+    .filter-btn { padding: 4px 12px; font-size: 12px; }
   }
   @media (max-width: 480px) {
     .foot-grid { grid-template-columns: 1fr; }
@@ -638,19 +701,37 @@
   <!-- PAGE HEADER -->
   <div class="page-header wrap" data-reveal>
 <h1>Cada proyecto, una <em>historia</em> que construimos.</h1>
-    <p>Desde vivienda de interés social hasta desarrollos residenciales de alto estándar e institucionales , con tecnología e inteligencia artificial en cada etapa.</p>
+    <p>Cada proyecto es una historia que construimos y hoy nos permite ser asesores expertos.</p>
   </div>
 
   <!-- PROJECTS GRID -->
   <section class="projects-section wrap">
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <button class="filter-btn active" data-value="todos">Todos</button>
+        <button class="filter-btn" data-value="operacion">En operación</button>
+        <button class="filter-btn" data-value="construccion">En construcción</button>
+        <button class="filter-btn" data-value="residencial">Residencial</button>
+        <button class="filter-btn" data-value="turistico">Turístico</button>
+        <button class="filter-btn" data-value="vip-social">VIP / Social</button>
+        <button class="filter-btn" data-value="institucional">Institucional</button>
+        <button class="filter-btn" data-value="sistemas-livianos">Sistemas livianos</button>
+        <button class="filter-btn" data-value="interventoria">Interventoría</button>
+        <button class="filter-btn" data-value="industria">Industria</button>
+      </div>
+    </div>
+
     <div class="projects-grid" id="projects-grid">
 
       <!-- Bahía 57 -->
-      <article class="project-card" data-reveal>
+      <article class="project-card" data-reveal data-tipo="residencial" data-estado="operacion">
         <div class="card-img">
           <img src="Images/Bahía 57.jpeg" alt="Bahía 57" loading="lazy">
           <div class="card-badges">
-            <span class="badge badge-tipo">Residencial</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-residencial">Residencial</span>
           </div>
         </div>
         <div class="card-body">
@@ -680,7 +761,7 @@
       </article>
 
       <!-- Prado 134 -->
-      <article class="project-card" data-reveal style="--rd:80">
+      <article class="project-card" data-reveal style="--rd:80" data-tipo="residencial" data-estado="operacion">
         <div class="card-img has-slides">
           <img src="Images/Prado 134.jpeg" alt="Prado 134" loading="lazy" class="slide active">
           <img src="Images/Prado 134 2.jpeg" alt="Prado 134" loading="lazy" class="slide">
@@ -689,7 +770,8 @@
             <button class="slide-dot" aria-label="Imagen 2"></button>
           </div>
           <div class="card-badges">
-            <span class="badge badge-tipo">Residencial</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-residencial">Residencial</span>
           </div>
         </div>
         <div class="card-body">
@@ -719,16 +801,12 @@
       </article>
 
       <!-- Flat 119 -->
-      <article class="project-card" data-reveal style="--rd:160">
-        <div class="card-img has-slides">
-          <img src="Images/Flat 119.jpeg" alt="Flat 119" loading="lazy" class="slide active">
-          <img src="Images/Flat 119 2.jpeg" alt="Flat 119" loading="lazy" class="slide">
-          <div class="slide-dots">
-            <button class="slide-dot active" aria-label="Imagen 1"></button>
-            <button class="slide-dot" aria-label="Imagen 2"></button>
-          </div>
+      <article class="project-card" data-reveal style="--rd:160" data-tipo="residencial" data-estado="operacion">
+        <div class="card-img">
+          <img src="Images/Flat 119 2.jpeg" alt="Flat 119" loading="lazy">
           <div class="card-badges">
-            <span class="badge badge-tipo">Residencial</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-residencial">Residencial</span>
           </div>
         </div>
         <div class="card-body">
@@ -757,49 +835,8 @@
         </div>
       </article>
 
-      <!-- FUCS -->
-      <article class="project-card" data-reveal>
-        <div class="card-img has-slides">
-          <img src="Images/FUCS.jpeg" alt="FUCS" loading="lazy" class="slide active">
-          <img src="Images/FUCS 2.jpeg" alt="FUCS" loading="lazy" class="slide">
-          <img src="Images/FUCS 3.jpeg" alt="FUCS" loading="lazy" class="slide">
-          <div class="slide-dots">
-            <button class="slide-dot active" aria-label="Imagen 1"></button>
-            <button class="slide-dot" aria-label="Imagen 2"></button>
-            <button class="slide-dot" aria-label="Imagen 3"></button>
-          </div>
-          <div class="card-badges">
-            <span class="badge badge-tipo">Institucional</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">FUCS</h2>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
-              Bogotá
-            </span>
-            <span class="meta-item">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1.5" y="3.5" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4 3.5V2.5a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.2"/></svg>
-              Estrato 4
-            </span>
-          </div>
-          <p class="card-desc">Proyecto institucional de alto impacto desarrollado en alianza con la Fundación Universitaria de Ciencias de la Salud. Un hito en la construcción de infraestructura educativa en Bogotá.</p>
-          <div class="card-footer">
-            <div class="card-stat">
-              <span class="card-stat-val">Inst.</span>
-              <span class="card-stat-lbl">Tipo</span>
-            </div>
-            <a href="index.html#contacto" class="card-link">
-              Más información
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </div>
-        </div>
-      </article>
-
       <!-- San Nicolás Plaza -->
-      <article class="project-card" data-reveal style="--rd:80">
+      <article class="project-card" data-reveal data-tipo="residencial" data-estado="operacion">
         <div class="card-img has-slides">
           <img src="Images/San Nicolas Plaza.jpeg" alt="San Nicolás Plaza" loading="lazy" class="slide active">
           <img src="Images/San Nicolas Plaza 2.jpeg" alt="San Nicolás Plaza" loading="lazy" class="slide">
@@ -808,7 +845,8 @@
             <button class="slide-dot" aria-label="Imagen 2"></button>
           </div>
           <div class="card-badges">
-            <span class="badge badge-tipo">Residencial</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-residencial">Residencial</span>
           </div>
         </div>
         <div class="card-body">
@@ -838,7 +876,7 @@
       </article>
 
       <!-- Arena Suites -->
-      <article class="project-card" data-reveal style="--rd:160">
+      <article class="project-card" data-reveal style="--rd:80" data-tipo="turistico" data-estado="operacion">
         <div class="card-img has-slides">
           <img src="Images/Arena Suites.jpeg" alt="Arena Suites" loading="lazy" class="slide active">
           <img src="Images/Arena Suites 2.jpeg" alt="Arena Suites" loading="lazy" class="slide">
@@ -847,7 +885,8 @@
             <button class="slide-dot" aria-label="Imagen 2"></button>
           </div>
           <div class="card-badges">
-            <span class="badge badge-tipo">Turístico</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-turistico">Turístico</span>
           </div>
         </div>
         <div class="card-body">
@@ -876,17 +915,75 @@
         </div>
       </article>
 
-      <!-- Calle 92 -->
-      <article class="project-card" data-reveal>
-        <div class="card-img has-slides">
-          <img src="Images/Calle 92.jpeg" alt="Calle 92" loading="lazy" class="slide active">
-          <img src="Images/Calle 92 2.jpeg" alt="Calle 92" loading="lazy" class="slide" style="object-position: top;">
-          <div class="slide-dots">
-            <button class="slide-dot active" aria-label="Imagen 1"></button>
-            <button class="slide-dot" aria-label="Imagen 2"></button>
-          </div>
+      <!-- FUCS: Aulas 2 -->
+      <article class="project-card" data-reveal style="--rd:160" data-tipo="institucional" data-estado="operacion">
+        <div class="card-img">
+          <img src="Images/FUCS Aulas 2.jpeg" alt="FUCS Aulas" loading="lazy">
           <div class="card-badges">
-            <span class="badge badge-tipo">Residencial</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-tipo">Institucional</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">FUCS: Aulas 2</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+          </div>
+          <p class="card-desc">Edificio institucional desarrollado para la Fundación Universitaria de Ciencias de la Salud. Proyecto de infraestructura educativa con altos estándares de diseño, funcionalidad y confort.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Inst.</span>
+              <span class="card-stat-lbl">Tipo</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- FUCS: Aulas 3 -->
+      <article class="project-card" data-reveal data-tipo="institucional" data-estado="operacion">
+        <div class="card-img">
+          <img src="Images/FUCS Aulas 3.jpeg" alt="FUCS Aulas" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-tipo">Institucional</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">FUCS: Aulas 3</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Bogotá
+            </span>
+          </div>
+          <p class="card-desc">Edificio institucional desarrollado para la Fundación Universitaria de Ciencias de la Salud. Infraestructura académica diseñada para responder a las necesidades de una comunidad educativa en crecimiento.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Inst.</span>
+              <span class="card-stat-lbl">Tipo</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Calle 92 -->
+      <article class="project-card" data-reveal style="--rd:160" data-tipo="residencial" data-estado="operacion">
+        <div class="card-img">
+          <img src="Images/Calle 92 2.jpeg" alt="Calle 92" loading="lazy" style="object-position: top;">
+          <div class="card-badges">
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-residencial">Residencial</span>
           </div>
         </div>
         <div class="card-body">
@@ -916,11 +1013,12 @@
       </article>
 
       <!-- ECO Ciudadela Betania -->
-      <article class="project-card" data-reveal style="--rd:80">
+      <article class="project-card" data-reveal data-tipo="vip-social" data-estado="construccion">
         <div class="card-img">
           <img src="Images/ECO Ciudadela Betania.png" alt="ECO Ciudadela Betania" loading="lazy">
           <div class="card-badges">
-            <span class="badge badge-tipo">VIP / Social</span>
+            <span class="badge badge-construccion">En construcción</span>
+            <span class="badge badge-vip">VIP / Social</span>
           </div>
         </div>
         <div class="card-body">
@@ -949,42 +1047,13 @@
         </div>
       </article>
 
-      <!-- Proyecto Bo67 -->
-      <article class="project-card" data-reveal style="--rd:160">
-        <div class="card-img">
-          <img src="Images/Proyecto Bo67.jpeg" alt="Proyecto Bo67" loading="lazy">
-          <div class="card-badges">
-            <span class="badge badge-tipo">Residencial</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">Proyecto Bo67</h2>
-          <div class="card-meta">
-            <span class="meta-item">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
-              Bogotá
-            </span>
-          </div>
-          <p class="card-desc">Nuevo desarrollo residencial en el corazón de Bogotá. Diseñado con criterios de eficiencia energética e integración de soluciones de inteligencia artificial en la gestión del edificio.</p>
-          <div class="card-footer">
-            <div class="card-stat">
-              <span class="card-stat-val">Nuevo</span>
-              <span class="card-stat-lbl">Proyecto</span>
-            </div>
-            <a href="index.html#contacto" class="card-link">
-              Más información
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </div>
-        </div>
-      </article>
-
       <!-- Interventoría Estación Calle 116 -->
-      <article class="project-card" data-reveal>
+      <article class="project-card" data-reveal style="--rd:80" data-tipo="interventoria" data-estado="operacion">
         <div class="card-img">
           <img src="Images/Interventoria estacion calle 116.jpeg" alt="Interventoría Estación Calle 116" loading="lazy">
           <div class="card-badges">
-            <span class="badge badge-tipo">Infraestructura</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-interventoria">Interventoría</span>
           </div>
         </div>
         <div class="card-body">
@@ -998,8 +1067,8 @@
           <p class="card-desc">Gestión de interventoría técnica y administrativa para el desarrollo de infraestructura en la Estación Calle 116. Supervisión especializada garantizando calidad, norma y plazo.</p>
           <div class="card-footer">
             <div class="card-stat">
-              <span class="card-stat-val">Infr.</span>
-              <span class="card-stat-lbl">Tipo</span>
+              <span class="card-stat-val">Interv.</span>
+              <span class="card-stat-lbl">Especialidad</span>
             </div>
             <a href="index.html#contacto" class="card-link">
               Más información
@@ -1010,11 +1079,12 @@
       </article>
 
       <!-- Minuto de Dios · Cobertura RCN -->
-      <article class="project-card" data-reveal style="--rd:80">
+      <article class="project-card" data-reveal style="--rd:160" data-tipo="vip-social" data-estado="operacion">
         <div class="card-img card-video">
           <video src="Images/Video minuto de dios rcn.mp4" preload="metadata" controls playsinline></video>
           <div class="card-badges">
-            <span class="badge badge-tipo">VIP / Social</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-vip">VIP / Social</span>
           </div>
         </div>
         <div class="card-body">
@@ -1039,22 +1109,22 @@
         </div>
       </article>
 
-      <!-- CSJ: Sistema Liviano -->
-      <article class="project-card" data-reveal style="--rd:160">
+      <!-- Edificio Consejo Superior de la Judicatura -->
+      <article class="project-card" data-reveal data-tipo="sistemas-livianos" data-estado="operacion">
         <div class="card-img">
-          <img src="Images/Proyecto1.jpeg" alt="CSJ Sistema Liviano" loading="lazy">
+          <img src="Images/Proyecto1.jpeg" alt="Edificio Consejo Superior de la Judicatura" loading="lazy">
           <div class="card-badges">
-            <span class="badge badge-tipo">Institucional</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-sistemas">Sistemas livianos</span>
           </div>
         </div>
         <div class="card-body">
-          <h2 class="card-title">CSJ: Sistema Liviano</h2>
+          <h2 class="card-title">Edificio Consejo Superior de la Judicatura en Bogotá</h2>
           <div class="card-meta">
             <span class="meta-item">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
               Bogotá
             </span>
-            <span class="meta-item">Institucional</span>
           </div>
           <p class="card-desc">Especificación e instalación de sistemas constructivos livianos acústicos-térmicos para el Consejo Superior de la Judicatura. Soluciones de alta eficiencia normativa y confort.</p>
           <div class="card-footer">
@@ -1070,22 +1140,22 @@
         </div>
       </article>
 
-      <!-- Vivienda Turística -->
-      <article class="project-card" data-reveal>
+      <!-- Finca La Paz -->
+      <article class="project-card" data-reveal style="--rd:80" data-tipo="turistico" data-estado="operacion">
         <div class="card-img">
-          <img src="Images/Proyecto2.jpeg" alt="Vivienda Turística" loading="lazy">
+          <img src="Images/Proyecto2.jpeg" alt="Finca La Paz" loading="lazy">
           <div class="card-badges">
-            <span class="badge badge-tipo">Turístico</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-turistico">Turístico</span>
           </div>
         </div>
         <div class="card-body">
-          <h2 class="card-title">Vivienda Turística</h2>
+          <h2 class="card-title">Finca La Paz</h2>
           <div class="card-meta">
             <span class="meta-item">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
-              Bogotá
+              Colombia
             </span>
-            <span class="meta-item">Turístico</span>
           </div>
           <p class="card-desc">Proyecto de alojamiento turístico en plena operación. Diseño, licenciamiento y estrategia de renta corta integrada, con zonas sociales y amenidades de alto estándar.</p>
           <div class="card-footer">
@@ -1101,12 +1171,13 @@
         </div>
       </article>
 
-      <!-- Policía Metropolitana: Sistema Liviano -->
-      <article class="project-card" data-reveal style="--rd:80">
+      <!-- MEBOC: Policía Metropolitana de Bogotá -->
+      <article class="project-card" data-reveal style="--rd:160" data-tipo="sistemas-livianos" data-estado="operacion">
         <div class="card-img">
-          <img src="Images/Proyecto3.jpeg" alt="Policía Metropolitana Sistema Liviano" loading="lazy">
+          <img src="Images/Proyecto3.jpeg" alt="Policía Metropolitana de Bogotá" loading="lazy">
           <div class="card-badges">
-            <span class="badge badge-tipo">Institucional</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-sistemas">Sistemas livianos</span>
           </div>
         </div>
         <div class="card-body">
@@ -1116,7 +1187,6 @@
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
               Bogotá
             </span>
-            <span class="meta-item">Institucional</span>
           </div>
           <p class="card-desc">Instalación de sistemas constructivos livianos para la Policía Metropolitana de Bogotá. Soluciones acústicas y térmicas que cumplen con exigentes especificaciones de infraestructura pública.</p>
           <div class="card-footer">
@@ -1132,24 +1202,24 @@
         </div>
       </article>
 
-      <!-- FUCS: Aislamiento acústico -->
-      <article class="project-card" data-reveal style="--rd:160">
+      <!-- FUCS: Trampas acústicas -->
+      <article class="project-card" data-reveal data-tipo="sistemas-livianos" data-estado="operacion">
         <div class="card-img">
-          <img src="Images/Proyecto4.jpeg" alt="FUCS Aislamiento acústico" loading="lazy">
+          <img src="Images/Proyecto4.jpeg" alt="FUCS Trampas acústicas" loading="lazy">
           <div class="card-badges">
-            <span class="badge badge-tipo">Institucional</span>
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-sistemas">Sistemas livianos</span>
           </div>
         </div>
         <div class="card-body">
-          <h2 class="card-title">FUCS: Aislamiento acústico</h2>
+          <h2 class="card-title">FUCS: Trampas acústicas</h2>
           <div class="card-meta">
             <span class="meta-item">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
               Bogotá
             </span>
-            <span class="meta-item">Institucional</span>
           </div>
-          <p class="card-desc">Solución integral de aislamiento acústico para la Fundación Universitaria de Ciencias de la Salud. Sistemas especializados que garantizan ambientes de estudio y trabajo sin interferencia de ruido.</p>
+          <p class="card-desc">Soluciones acústicas y térmicas para que edificios institucionales.</p>
           <div class="card-footer">
             <div class="card-stat">
               <span class="card-stat-val">Acúst.</span>
@@ -1163,6 +1233,70 @@
         </div>
       </article>
 
+      <!-- Technip -->
+      <article class="project-card" data-reveal data-tipo="industria" data-estado="operacion">
+        <div class="card-img">
+          <img src="Images/Technip.jpeg" alt="Technip" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-industria">Industria</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Technip</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Colombia
+            </span>
+          </div>
+          <p class="card-desc">Proyecto para el sector industrial.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Ind.</span>
+              <span class="card-stat-lbl">Tipo</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- La Llanura -->
+      <article class="project-card" data-reveal style="--rd:80" data-tipo="sistemas-livianos" data-estado="operacion">
+        <div class="card-img">
+          <img src="Images/La llanura.jpeg" alt="La Llanura" loading="lazy">
+          <div class="card-badges">
+            <span class="badge badge-operacion">En operación</span>
+            <span class="badge badge-sistemas">Sistemas livianos</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">La Llanura</h2>
+          <div class="card-meta">
+            <span class="meta-item">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.067 1 2.5 2.567 2.5 4.5c0 2.75 3.5 6.5 3.5 6.5s3.5-3.75 3.5-6.5C9.5 2.567 7.933 1 6 1zm0 4.75a1.25 1.25 0 110-2.5 1.25 1.25 0 010 2.5z" fill="currentColor"/></svg>
+              Colombia
+            </span>
+          </div>
+          <p class="card-desc">Especificación e instalación de sistemas livianos acústicos-térmicos de alto desempeño.</p>
+          <div class="card-footer">
+            <div class="card-stat">
+              <span class="card-stat-val">Sist.</span>
+              <span class="card-stat-lbl">Especialidad</span>
+            </div>
+            <a href="index.html#contacto" class="card-link">
+              Más información
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8m0 0L8 4m2.5 2.5L8 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <p class="no-results" id="no-results">No hay proyectos con ese filtro.</p>
+
     </div>
   </section>
 
@@ -1171,7 +1305,7 @@
     <div class="foot-grid">
       <div class="foot-brand">
         <img src="Logo_Sicnia.png" alt="Sicnia" class="brand-logo">
-        <p>Inmobiliaria · Ingeniería · Inteligencia Artificial.<br>Construimos proyectos que duran décadas.</p>
+        <p>Inmobiliaria · Ingeniería · Inteligencia Artificial.<br>Asesoramos proyectos de largo plazo.</p>
       </div>
       <div class="foot-col">
         <div class="foot-col-title">Navegación</div>
@@ -1190,7 +1324,7 @@
       <div class="foot-col">
         <div class="foot-col-title">Contacto</div>
         <a href="index.html#contacto">Enviar mensaje</a>
-        <a href="tel:+5718050232">+57 (1) 805 02 32</a>
+        <a href="tel:+5760180502">+57 (601) 805 02</a>
         <a href="https://maps.google.com/?q=Calle+63+%2330-10+Bogotá" target="_blank" rel="noopener">Calle 63 #30-10, Bogotá, Colombia</a>
       </div>
     </div>
@@ -1255,6 +1389,37 @@
     });
   })();
 </script>
+
+  <script>
+    (function () {
+      var active = 'todos';
+
+      function applyFilter() {
+        var cards = document.querySelectorAll('.project-card');
+        var anyVisible = false;
+        cards.forEach(function (card) {
+          var match = active === 'todos' ||
+                      card.dataset.tipo   === active ||
+                      card.dataset.estado === active;
+          card.classList.toggle('hidden', !match);
+          if (match) anyVisible = true;
+        });
+        var noResults = document.getElementById('no-results');
+        if (noResults) noResults.classList.toggle('show', !anyVisible);
+      }
+
+      document.querySelectorAll('.filter-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('.filter-btn').forEach(function (b) {
+            b.classList.remove('active');
+          });
+          btn.classList.add('active');
+          active = btn.dataset.value;
+          applyFilter();
+        });
+      });
+    })();
+  </script>
 
   <script>
     (function() {
